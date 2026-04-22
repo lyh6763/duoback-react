@@ -1,5 +1,6 @@
 import { useCart } from '../../context/cart-context'
 import PRODUCTS from '../../data/products-data'
+import { assetPath } from '../../utils/assetPath'
 import { formatPrice } from '../../utils/formatPrice'
 
 export default function CartItem({ item }) {
@@ -15,7 +16,7 @@ export default function CartItem({ item }) {
     <div className="cart-item">
       {/* 이미지 */}
       <div className="cart-item__image">
-        <img src={`/${item.image}`} alt={item.name} width="120" height="120" />
+        <img src={assetPath(item.image)} alt={item.name} width="120" height="120" />
       </div>
 
       {/* 정보 */}

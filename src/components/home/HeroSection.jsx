@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { assetPath } from '../../utils/assetPath'
 
 export default function HeroSection() {
   return (
@@ -25,7 +26,7 @@ export default function HeroSection() {
           <div className="hero__right">
             <div className="hero__visual">
               <img
-                src="/images/products/D2500G-DASW(1).jpg"
+                src={assetPath('images/products/D2500G-DASW(1).jpg')}
                 alt="D2500G-DASW 인체공학 의자"
                 className="hero__product-image"
               />

@@ -1,8 +1,10 @@
+import { assetPath } from '../../utils/assetPath'
+
 const AWARDS = [
-  { src: '/images/awards/kc.png', alt: 'KC인증', name: 'KC인증' },
-  { src: '/images/awards/iso9001.png', alt: 'ISO9001', name: 'ISO9001' },
-  { src: '/images/awards/good-design.png', alt: '굿디자인', name: '굿디자인' },
-  { src: '/images/awards/reddot.png', alt: '레드닷', name: '레드닷' },
+  { src: 'images/awards/kc.png', alt: 'KC인증', name: 'KC인증' },
+  { src: 'images/awards/iso9001.png', alt: 'ISO9001', name: 'ISO9001' },
+  { src: 'images/awards/good-design.png', alt: '굿디자인', name: '굿디자인' },
+  { src: 'images/awards/reddot.png', alt: '레드닷', name: '레드닷' },
 ]
 
 export default function TrustAwards() {
@@ -14,7 +16,7 @@ export default function TrustAwards() {
           {AWARDS.map(({ src, alt, name }) => (
             <div key={name} className="award-item">
               <div className="award-item__image">
-                <img src={src} alt={alt} loading="lazy" width="200" height="200" />
+                <img src={assetPath(src)} alt={alt} loading="lazy" width="200" height="200" />
               </div>
               <p className="award-item__name">{name}</p>
             </div>

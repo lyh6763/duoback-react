@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import PRODUCTS from '../../data/products-data'
+import { assetPath } from '../../utils/assetPath'
 import { formatPrice } from '../../utils/formatPrice'
 
 export default function RelatedProducts({ currentId, category }) {
@@ -19,7 +20,7 @@ export default function RelatedProducts({ currentId, category }) {
               <Link to={`/products/${product.id}`} className="product-card__link">
                 <div className="product-card__image">
                   <img
-                    src={`/${product.images[0]}`}
+                    src={assetPath(product.images[0])}
                     alt={product.name}
                     loading="lazy"
                     width="600"

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { assetPath } from '../../utils/assetPath'
 
 const StarIcon = ({ filled = true }) => (
   <svg viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} opacity={filled ? 1 : 0.3} stroke="currentColor" strokeWidth={filled ? 0 : 1}>
@@ -66,11 +67,11 @@ export default function ProductTabs({ product }) {
               <div className="detail-section">
                 <h3>{product.name}의 특징</h3>
                 <p>{product.summary}</p>
-                <img src={`/${product.images[0]}`} alt="제품 상세 이미지 1" loading="lazy" width="1200" height="600" />
+                <img src={assetPath(product.images[0])} alt="제품 상세 이미지 1" loading="lazy" width="1200" height="600" />
                 <h3>듀얼백 시스템</h3>
                 <p>상부와 하부 등받이가 독립적으로 움직여 척추의 자연스러운 곡선을 따라 최적의 지지력을 제공합니다. 어떤 자세에서도 편안함을 유지할 수 있습니다.</p>
                 {product.images[1] && (
-                  <img src={`/${product.images[1]}`} alt="듀얼백 시스템" loading="lazy" width="1200" height="600" />
+                  <img src={assetPath(product.images[1])} alt="듀얼백 시스템" loading="lazy" width="1200" height="600" />
                 )}
                 <h3>에어 메쉬 소재</h3>
                 <p>통기성이 뛰어난 프리미엄 메쉬 소재를 사용하여 장시간 사용해도 쾌적함을 유지합니다.</p>

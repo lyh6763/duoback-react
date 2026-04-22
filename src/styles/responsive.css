@@ -63,7 +63,6 @@
   min-height: 240px;
   overflow: hidden;
   border-radius: var(--radius-md);
-  background-image: url('/images/products/D2500G-DASW(1).jpg');
   background-position: 58% center;
   background-size: cover;
 }

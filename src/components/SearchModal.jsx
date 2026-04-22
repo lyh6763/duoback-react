@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import PRODUCTS from '../data/products-data'
+import { assetPath } from '../utils/assetPath'
 import { formatPrice } from '../utils/formatPrice'
 
 export default function SearchModal({ isOpen, onClose }) {
@@ -127,7 +128,7 @@ export default function SearchModal({ isOpen, onClose }) {
                   onClick={handleClose}
                 >
                   <div className="search-result-item__image">
-                    <img src={`/${product.images[0]}`} alt={product.name} />
+                    <img src={assetPath(product.images[0])} alt={product.name} />
                   </div>
                   <div className="search-result-item__info">
                     <p className="search-result-item__name">{product.name}</p>

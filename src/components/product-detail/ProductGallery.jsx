@@ -1,3 +1,5 @@
+import { assetPath } from '../../utils/assetPath'
+
 export default function ProductGallery({ images, mainImage, onImageSelect }) {
   const activeImage = mainImage || images[0]
 
@@ -6,7 +8,7 @@ export default function ProductGallery({ images, mainImage, onImageSelect }) {
       {/* 메인 이미지 */}
       <div className="product-gallery__main">
         <img
-          src={`/${activeImage}`}
+          src={assetPath(activeImage)}
           alt="제품 메인 이미지"
           width="800"
           height="800"
@@ -22,7 +24,7 @@ export default function ProductGallery({ images, mainImage, onImageSelect }) {
             className={`thumbnail${activeImage === src ? ' thumbnail--active' : ''}`}
             onClick={() => onImageSelect?.(src)}
           >
-            <img src={`/${src}`} alt={`제품 이미지 ${index + 1}`} width="100" height="100" />
+            <img src={assetPath(src)} alt={`제품 이미지 ${index + 1}`} width="100" height="100" />
           </button>
         ))}
       </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../../context/cart-context'
+import { assetPath } from '../../utils/assetPath'
 import { formatPrice } from '../../utils/formatPrice'
 
 export default function ProductCard({ product, isList = false }) {
@@ -39,7 +40,7 @@ export default function ProductCard({ product, isList = false }) {
         {/* Image */}
         <div className="product-card__image">
           <img
-            src={`/${currentImage}`}
+            src={assetPath(currentImage)}
             alt={`${product.name} ${selectedColor}`}
             loading="lazy"
             width="600"
