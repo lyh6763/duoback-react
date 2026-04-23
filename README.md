@@ -62,11 +62,18 @@ npm run lint
 ## 검증 메모
 
 - `npm run lint`: 통과
-- `npx vite build --outDir build-test --emptyOutDir true`: 통과
-- `npm run build`: 현재 작업 환경의 기존 `dist` 출력 대상에서는 변환 후 종료 코드 1로 실패했습니다. 동일 소스가 별도 출력 폴더에서는 정상 빌드되어, 소스 컴파일 문제보다는 기존 `dist` 폴더 또는 OneDrive 동기화/잠금 이슈로 보입니다.
+- `npm install`: 통과
+- `npm run build`: 통과
+- GitHub Actions Pages 배포: 통과
+
+## 배포
+
+- Live: https://lyh6763.github.io/duoback-react/
+- Repository: https://github.com/lyh6763/duoback-react
+- `main` 브랜치에 push하면 GitHub Actions가 `dist`를 GitHub Pages로 배포합니다.
 
 ## 참고 메모
 
 - `hero-section-revision-plan.md`는 히어로 섹션 개선 방향을 정리한 작업 메모입니다.
 - `public/images/products`의 실제 제품 이미지를 사용합니다.
-- 현재 폴더는 Git 저장소가 아니므로 변경 이력 관리는 상위 포트폴리오 문서나 별도 저장소 연결이 필요합니다.
+- 정적 배포와 GitHub Pages 경로 대응을 위해 Vite `base`와 라우터 설정을 배포 친화적으로 조정했습니다.
