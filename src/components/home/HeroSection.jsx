@@ -47,7 +47,7 @@ export default function HeroSection() {
           </div>
           <div className="hero__metric-divider"></div>
           <div className="hero__metric">
-            <span className="hero__metric-value">120</span>
+            <span className="hero__metric-value">130</span>
             <span className="hero__metric-label">kg 최대 하중</span>
           </div>
         </div>
