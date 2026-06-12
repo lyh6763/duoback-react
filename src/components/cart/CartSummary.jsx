@@ -3,8 +3,14 @@ import { useCart } from '../../context/cart-context'
 import { formatPrice } from '../../utils/formatPrice'
 
 export default function CartSummary() {
-  const { cartTotal } = useCart()
+  const { cartTotal, clearCart } = useCart()
   const navigate = useNavigate()
+
+  function handleCheckout() {
+    clearCart()
+    alert('데모 주문이 완료되었습니다.')
+    navigate('/products')
+  }
 
   return (
     <div className="cart-summary">
@@ -28,13 +34,15 @@ export default function CartSummary() {
       </div>
 
       <button
+        type="button"
         className="btn btn--primary btn--large cart-summary__checkout"
-        onClick={() => alert('결제 페이지로 이동합니다.')}
+        onClick={handleCheckout}
       >
         결제하기
       </button>
 
       <button
+        type="button"
         className="btn btn--secondary btn--large"
         onClick={() => navigate('/products')}
       >

@@ -1,4 +1,4 @@
-import PRODUCTS from './products-data'
+import PRODUCTS from './products-data.js'
 
 const CATEGORY_DEFINITIONS = [
   {

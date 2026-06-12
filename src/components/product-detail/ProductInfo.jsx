@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useCart } from '../../context/cart-context'
 import { formatPrice } from '../../utils/formatPrice'
 
 export default function ProductInfo({ product, onColorChange }) {
   const { addToCart } = useCart()
+  const navigate = useNavigate()
   const [selectedColor, setSelectedColor] = useState(product.colors[0]?.name || '')
   const [quantity, setQuantity] = useState(1)
 
@@ -22,8 +24,8 @@ export default function ProductInfo({ product, onColorChange }) {
     if (!isNaN(val)) setQuantity(Math.min(99, Math.max(1, val)))
   }
 
-  function handleAddToCart() {
-    addToCart({
+  function getCartPayload() {
+    return {
       id: product.id,
       name: product.name,
       category: product.category,
@@ -31,7 +33,16 @@ export default function ProductInfo({ product, onColorChange }) {
       selectedColor,
       quantity,
       image: product.colorImages?.[selectedColor] || product.images[0],
-    })
+    }
+  }
+
+  function handleAddToCart() {
+    addToCart(getCartPayload())
+  }
+
+  function handleBuyNow() {
+    addToCart(getCartPayload())
+    navigate('/cart')
   }
 
   const discount = product.originalPrice
@@ -122,7 +133,7 @@ export default function ProductInfo({ product, onColorChange }) {
 
       {/* 액션 버튼 */}
       <div className="product-details__actions">
-        <button className="btn btn--secondary btn--large" onClick={handleAddToCart}>
+        <button type="button" className="btn btn--secondary btn--large" onClick={handleAddToCart}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <circle cx="9" cy="21" r="1" />
             <circle cx="20" cy="21" r="1" />
@@ -130,7 +141,9 @@ export default function ProductInfo({ product, onColorChange }) {
           </svg>
           장바구니 담기
         </button>
-        <button className="btn btn--primary btn--large">바로 구매하기</button>
+        <button type="button" className="btn btn--primary btn--large" onClick={handleBuyNow}>
+          바로 구매하기
+        </button>
       </div>
 
       {/* 특징 */}

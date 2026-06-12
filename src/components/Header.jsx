@@ -18,6 +18,10 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  function handleLoginClick() {
+    alert('로그인 기능은 준비 중입니다.')
+  }
+
   return (
     <>
       <header className={`header${isScrolled ? ' is-scrolled' : ''}`}>
@@ -62,7 +66,12 @@ export default function Header() {
               </Link>
 
               {/* 로그인 */}
-              <button className="header__action-btn" aria-label="로그인">
+              <button
+                type="button"
+                className="header__action-btn"
+                aria-label="로그인"
+                onClick={handleLoginClick}
+              >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                   <circle cx="12" cy="7" r="4" />

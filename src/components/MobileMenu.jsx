@@ -25,13 +25,28 @@ export default function MobileMenu({ isOpen, onClose }) {
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') onClose()
+    }
+
+    if (isOpen) document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen, onClose])
+
   function handleCartClick() {
     onClose()
     navigate('/cart')
   }
 
+  function handleLoginClick() {
+    alert('로그인 기능은 준비 중입니다.')
+  }
+
+  if (!isOpen) return null
+
   return (
-    <div className={`mobile-menu${isOpen ? ' is-open' : ''}`} role="navigation" aria-label="모바일 메뉴">
+    <div className="mobile-menu is-open" role="dialog" aria-modal="true" aria-label="모바일 메뉴">
       <div className="mobile-menu__overlay" onClick={onClose} />
       <div className="mobile-menu__container">
         {/* Header */}
@@ -77,7 +92,7 @@ export default function MobileMenu({ isOpen, onClose }) {
             </svg>
             장바구니
           </button>
-          <button className="mobile-menu__action">
+          <button className="mobile-menu__action" onClick={handleLoginClick}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
