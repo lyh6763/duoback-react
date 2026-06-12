@@ -74,6 +74,7 @@ npm run lint
 
 ## 참고 메모
 
-- `hero-section-revision-plan.md`는 히어로 섹션 개선 방향을 정리한 작업 메모입니다.
+- `docs/hero-section-revision-plan.md`는 히어로 섹션 개선 방향을 정리한 작업 메모입니다. (해당 개선안은 현재 구현 완료)
 - `public/images/products`의 실제 제품 이미지를 사용합니다.
 - 정적 배포와 GitHub Pages 경로 대응을 위해 Vite `base`와 라우터 설정을 배포 친화적으로 조정했습니다.
+- `npm run build`는 `scripts/build.mjs`를 거칩니다. 프로젝트 경로에 비ASCII 문자(예: `포트폴리오`)가 포함된 Windows 환경에서 Vite/Rollup이 실패하는 문제를 피하려고, 빌드 시 ASCII 임시 폴더로 소스를 복사한 뒤 `dist`만 회수합니다. 경로가 ASCII인 환경(CI 포함)에서는 우회 없이 `vite build`를 그대로 실행하며, `npm run build:direct`로 우회 로직 없이 빌드할 수도 있습니다.
