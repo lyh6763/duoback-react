@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { ACTIVE_CATEGORIES } from '../data/categories'
 
 export default function Footer() {
   return (
@@ -13,10 +14,11 @@ export default function Footer() {
           <div className="footer__column">
             <h4 className="footer__column-title">제품</h4>
             <ul className="footer__links">
-              <li><Link to="/products?category=office" className="footer__link">사무용</Link></li>
-              <li><Link to="/products?category=student" className="footer__link">학생용</Link></li>
-              <li><Link to="/products?category=gaming" className="footer__link">게이밍</Link></li>
-              <li><Link to="/products?category=premium" className="footer__link">프리미엄</Link></li>
+              {ACTIVE_CATEGORIES.map(({ key, label }) => (
+                <li key={key}>
+                  <Link to={`/products?category=${key}`} className="footer__link">{label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
 
