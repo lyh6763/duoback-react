@@ -8,7 +8,7 @@ export default function HeroSection() {
         <div className="hero__inner">
 
           <div className="hero__left">
-            <p className="hero__eyebrow eyebrow">Precision Ergonomics · Since 1991</p>
+            <p className="hero__eyebrow eyebrow">Precision Ergonomics · Since 1993</p>
             <h1 className="hero__title">
               당신의 자세를 설계하는<br />
               <em className="editorial">인체공학</em> 체어
