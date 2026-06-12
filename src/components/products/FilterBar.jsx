@@ -1,21 +1,4 @@
 export default function FilterBar({ sort, onSortChange, view, onViewChange }) {
-  function handlePriceChange(e) {
-    onSortChange(e.target.value ? `price-${e.target.value}` : '')
-  }
-
-  function handlePopularChange(e) {
-    onSortChange(e.target.value || '')
-  }
-
-  function handleNewChange(e) {
-    onSortChange(e.target.value || '')
-  }
-
-  // select 값 역산
-  const priceVal = sort === 'price-low' ? 'low' : sort === 'price-high' ? 'high' : ''
-  const popularVal = sort === 'popular' || sort === 'review' ? sort : ''
-  const newVal = sort === 'newest' || sort === 'oldest' ? sort : ''
-
   return (
     <section className="filter-bar">
       <div className="container">
@@ -23,24 +6,25 @@ export default function FilterBar({ sort, onSortChange, view, onViewChange }) {
           {/* Sort */}
           <div className="filter-bar__left">
             <div className="select-wrapper">
-              <select className="filter-select" value={priceVal} onChange={handlePriceChange}>
-                <option value="">가격순</option>
-                <option value="low">낮은 가격순</option>
-                <option value="high">높은 가격순</option>
-              </select>
-            </div>
-            <div className="select-wrapper">
-              <select className="filter-select" value={popularVal} onChange={handlePopularChange}>
-                <option value="">인기순</option>
-                <option value="popular">인기 많은순</option>
-                <option value="review">리뷰 많은순</option>
-              </select>
-            </div>
-            <div className="select-wrapper">
-              <select className="filter-select" value={newVal} onChange={handleNewChange}>
-                <option value="">신상품순</option>
-                <option value="newest">최신순</option>
-                <option value="oldest">오래된순</option>
+              <select
+                className="filter-select"
+                value={sort}
+                onChange={e => onSortChange(e.target.value)}
+                aria-label="정렬"
+              >
+                <option value="">추천순</option>
+                <optgroup label="가격">
+                  <option value="price-low">낮은 가격순</option>
+                  <option value="price-high">높은 가격순</option>
+                </optgroup>
+                <optgroup label="인기">
+                  <option value="popular">인기 많은순</option>
+                  <option value="review">리뷰 많은순</option>
+                </optgroup>
+                <optgroup label="신상품">
+                  <option value="newest">최신순</option>
+                  <option value="oldest">오래된순</option>
+                </optgroup>
               </select>
             </div>
           </div>
