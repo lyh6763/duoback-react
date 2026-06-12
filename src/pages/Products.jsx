@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import PRODUCTS from '../data/products-data'
-import { ACTIVE_CATEGORY_KEYS, CATEGORY_MATCHES } from '../data/categories'
+import { ACTIVE_CATEGORIES, ACTIVE_CATEGORY_KEYS, CATEGORY_MATCHES } from '../data/categories'
 import ProductsHeader from '../components/products/ProductsHeader'
 import FilterBar from '../components/products/FilterBar'
 import ProductCard from '../components/products/ProductCard'
@@ -20,7 +20,7 @@ function sortProducts(list, sort) {
 }
 
 export default function Products() {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [sort, setSort] = useState('')
   const [view, setView] = useState('grid')
 
@@ -28,6 +28,16 @@ export default function Products() {
   const category = categoryParam && ACTIVE_CATEGORY_KEYS.has(categoryParam)
     ? categoryParam
     : 'all'
+
+  function handleCategoryChange(key) {
+    const next = new URLSearchParams(searchParams)
+    if (key === 'all') {
+      next.delete('category')
+    } else {
+      next.set('category', key)
+    }
+    setSearchParams(next)
+  }
 
   const filtered = useMemo(() => {
     const matches = CATEGORY_MATCHES[category]
@@ -42,7 +52,15 @@ export default function Products() {
   return (
     <>
       <ProductsHeader category={category} count={displayed.length} />
-      <FilterBar sort={sort} onSortChange={setSort} view={view} onViewChange={setView} />
+      <FilterBar
+        category={category}
+        categories={ACTIVE_CATEGORIES}
+        onCategoryChange={handleCategoryChange}
+        sort={sort}
+        onSortChange={setSort}
+        view={view}
+        onViewChange={setView}
+      />
 
       <section className="products-section">
         <div className="container">

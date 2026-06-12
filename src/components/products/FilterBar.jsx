@@ -1,10 +1,36 @@
-export default function FilterBar({ sort, onSortChange, view, onViewChange }) {
+export default function FilterBar({
+  category,
+  categories,
+  onCategoryChange,
+  sort,
+  onSortChange,
+  view,
+  onViewChange,
+}) {
+  const tabs = [{ key: 'all', label: '전체' }, ...categories]
+
   return (
     <section className="filter-bar">
       <div className="container">
         <div className="filter-bar__content">
-          {/* Sort */}
+          {/* Category */}
           <div className="filter-bar__left">
+            <div className="category-filter" role="group" aria-label="카테고리">
+              {tabs.map(({ key, label }) => (
+                <button
+                  key={key}
+                  className={`category-chip${category === key ? ' category-chip--active' : ''}`}
+                  aria-pressed={category === key}
+                  onClick={() => onCategoryChange(key)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Sort + View Toggle */}
+          <div className="filter-bar__right">
             <div className="select-wrapper">
               <select
                 className="filter-select"
@@ -27,10 +53,7 @@ export default function FilterBar({ sort, onSortChange, view, onViewChange }) {
                 </optgroup>
               </select>
             </div>
-          </div>
 
-          {/* View Toggle */}
-          <div className="filter-bar__right">
             <button
               className={`view-toggle${view === 'grid' ? ' view-toggle--active' : ''}`}
               aria-label="그리드 보기"
