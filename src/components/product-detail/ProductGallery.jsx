@@ -1,18 +1,23 @@
 import { assetPath } from '../../utils/assetPath'
 
-export default function ProductGallery({ images, mainImage, onImageSelect }) {
+export default function ProductGallery({ images, mainImage, onImageSelect, tag }) {
   const activeImage = mainImage || images[0]
 
   return (
     <div className="product-gallery">
       {/* 메인 이미지 */}
       <div className="product-gallery__main">
+        <span className="gallery__tick gallery__tick--tl"></span>
+        <span className="gallery__tick gallery__tick--tr"></span>
+        <span className="gallery__tick gallery__tick--bl"></span>
+        <span className="gallery__tick gallery__tick--br"></span>
         <img
           src={assetPath(activeImage)}
           alt="제품 메인 이미지"
           width="800"
           height="800"
         />
+        {tag && <span className="gallery__spec">{tag}</span>}
       </div>
 
       {/* 썸네일 */}

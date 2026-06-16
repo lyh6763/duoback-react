@@ -49,6 +49,12 @@ export default function ProductInfo({ product, onColorChange }) {
     ? Math.round((1 - product.price / product.originalPrice) * 100)
     : null
 
+  const keySpecs = [
+    { label: '좌판 높이', value: product.specs?.seatHeight },
+    { label: '최대 하중', value: product.specs?.maxWeight },
+    { label: '팔걸이', value: product.specs?.armrest },
+  ].filter(spec => spec.value)
+
   return (
     <div className="product-details">
       <p className="eyebrow product-details__eyebrow">Precision Series</p>
@@ -65,6 +71,18 @@ export default function ProductInfo({ product, onColorChange }) {
           </>
         )}
       </div>
+
+      {/* 핵심 사양 readout */}
+      {keySpecs.length > 0 && (
+        <div className="spec-readout">
+          {keySpecs.map(spec => (
+            <div key={spec.label} className="spec-readout__item">
+              <span className="spec-readout__label">{spec.label}</span>
+              <span className="spec-readout__value">{spec.value}</span>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="product-details__divider" />
 

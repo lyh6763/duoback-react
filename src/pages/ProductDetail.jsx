@@ -19,6 +19,7 @@ function ProductDetailContent({ product }) {
               images={product.images}
               mainImage={mainImage}
               onImageSelect={setMainImage}
+              tag={`${product.name} · ${product.category}`}
             />
             <ProductInfo product={product} onColorChange={setMainImage} />
           </div>
