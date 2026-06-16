@@ -25,30 +25,35 @@ export default function HeroSection() {
 
           <div className="hero__right">
             <div className="hero__visual">
+              <span className="hero__tick hero__tick--tl"></span>
+              <span className="hero__tick hero__tick--tr"></span>
+              <span className="hero__tick hero__tick--bl"></span>
+              <span className="hero__tick hero__tick--br"></span>
               <img
                 src={assetPath('images/products/D2500G-DASW(1).jpg')}
                 alt="D2500G-DASW 인체공학 의자"
                 className="hero__product-image"
               />
+              <span className="hero__spec">D2500G · 4D Ergonomic</span>
             </div>
           </div>
 
         </div>
 
         <div className="hero__metrics-bar">
-          <div className="hero__metric">
-            <span className="hero__metric-value">30+</span>
+          <div className="hero__metric" data-index="01">
+            <span className="hero__metric-value">30<span className="unit">+</span></span>
             <span className="hero__metric-label">연구 연수</span>
           </div>
           <div className="hero__metric-divider"></div>
-          <div className="hero__metric">
-            <span className="hero__metric-value">4D</span>
+          <div className="hero__metric" data-index="02">
+            <span className="hero__metric-value">4<span className="unit">D</span></span>
             <span className="hero__metric-label">조절 시스템</span>
           </div>
           <div className="hero__metric-divider"></div>
-          <div className="hero__metric">
-            <span className="hero__metric-value">130</span>
-            <span className="hero__metric-label">kg 최대 하중</span>
+          <div className="hero__metric" data-index="03">
+            <span className="hero__metric-value">130<span className="unit">kg</span></span>
+            <span className="hero__metric-label">최대 하중</span>
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import './styles/cart.css'
 import './styles/brand.css'
 import './styles/support.css'
 import './styles/responsive.css'
+import './styles/art-direction.css'
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(

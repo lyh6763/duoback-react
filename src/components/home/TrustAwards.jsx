@@ -11,7 +11,10 @@ export default function TrustAwards() {
   return (
     <section className="trust-awards">
       <div className="container">
-        <h2 className="trust-awards__title">신뢰할 수 있는 품질</h2>
+        <div className="trust-awards__head">
+          <span className="eyebrow">Certified Quality</span>
+          <h2 className="trust-awards__title">신뢰할 수 있는 품질</h2>
+        </div>
         <div className="trust-awards__grid">
           {AWARDS.map(({ src, alt, name }) => (
             <div key={name} className="award-item">

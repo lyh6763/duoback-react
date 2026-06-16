@@ -52,8 +52,13 @@ export default function CategoryNav() {
     <section className="category-nav">
       <div className="container">
         <div className="category-nav__grid">
-          {visibleCategories.map(({ key, label, icon }) => (
-            <Link key={key} to={`/products?category=${key}`} className="category-card">
+          {visibleCategories.map(({ key, label, icon }, i) => (
+            <Link
+              key={key}
+              to={`/products?category=${key}`}
+              className="category-card"
+              data-index={`(0${i + 1})`}
+            >
               <div className="category-card__icon">{icon}</div>
               <h3 className="category-card__title">{label}</h3>
             </Link>

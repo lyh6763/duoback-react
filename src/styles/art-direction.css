@@ -1,0 +1,295 @@
+/* ============================================================
+   Art Direction Layer — "Precision Instrument / 측정으로서의 자세"
+   ------------------------------------------------------------
+   리디자인 의도:
+   - 죽어있던 브론즈(#B46A4B)를 "데이터/인덱스" 액센트로 일관 사용
+   - 그린(#2B7C73)은 "행동(주 CTA/브랜드)"으로 역할 분리
+   - 측정 모티프: 인덱스 번호, 틱(코너 마크), 하이라인, 계기판형 지표
+   - Space Grotesk(수치/라벨) + Newsreader(에디토리얼 강조) 의도적 페어링
+   이 시트는 가장 마지막에 import 되어 기존 스타일을 정밀하게 덮어쓴다.
+   ============================================================ */
+
+/* ---- 1. 측정 라벨로서의 eyebrow (전역) ---------------------- */
+.eyebrow::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background-color: var(--color-accent-secondary);
+  flex-shrink: 0;
+}
+
+/* ---- 2. 섹션 헤더 패턴 ------------------------------------- */
+.ad-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-10);
+}
+
+.ad-head__top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.ad-head__index {
+  font-family: var(--font-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.08em;
+  color: var(--color-accent-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.ad-head__title {
+  margin: 0;
+  font-family: var(--font-secondary);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-semibold);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--color-text-primary);
+}
+
+.ad-head__title em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-accent-secondary);
+}
+
+.ad-head__sub {
+  margin: 0;
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+}
+
+/* 정밀 하이라인: 좌측 40px 만 진하게 (등록 마크 느낌) */
+.ad-rule {
+  height: 1px;
+  border: 0;
+  margin: 0;
+  background: linear-gradient(
+    90deg,
+    var(--color-text-primary) 0,
+    var(--color-text-primary) 40px,
+    var(--color-border) 40px
+  );
+}
+
+/* ---- 0. 히어로 높이/여백 보정 (지표바가 폴드에서 잘려 보이던 문제) -- */
+.hero {
+  padding-bottom: var(--space-12);
+}
+
+/* 제품 이미지를 낮춰 히어로 전체 높이를 줄임 → 지표바가 폴드 위로 */
+.hero__product-image {
+  max-height: 52vh;
+}
+
+/* ---- 3. 히어로 제품 비주얼: 측정 프레임 -------------------- */
+.hero__visual {
+  padding: var(--space-6);
+}
+
+/* 뒤 글로우를 옅게 (제품을 보조만) */
+.hero__visual::before {
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(43, 124, 115, 0.10) 0%,
+    transparent 68%
+  );
+}
+
+.hero__tick {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-accent-secondary);
+  z-index: 2;
+}
+
+.hero__tick--tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.hero__tick--tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+.hero__tick--bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+.hero__tick--br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+.hero__spec {
+  position: absolute;
+  bottom: var(--space-2);
+  left: var(--space-2);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-secondary);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-white);
+  border: 1px solid var(--color-border);
+}
+
+.hero__spec::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+}
+
+/* ---- 4. 히어로 지표바 → 계기판 readout --------------------- */
+.hero__metrics-bar {
+  position: relative;
+  margin-top: var(--space-8);
+  padding: 0;
+  border-radius: var(--radius-sm);
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/* 상단 그린 인스트루먼트 라인 */
+.hero__metrics-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--color-accent);
+  z-index: 1;
+}
+
+.hero__metric {
+  flex: 1;
+  text-align: left;
+  padding: var(--space-6);
+}
+
+.hero__metric::before {
+  content: attr(data-index);
+  display: block;
+  margin-bottom: var(--space-3);
+  font-family: var(--font-secondary);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.14em;
+  color: var(--color-accent-secondary);
+}
+
+.hero__metric-value {
+  font-size: var(--text-3xl);
+  letter-spacing: -0.03em;
+}
+
+.hero__metric-value .unit {
+  margin-left: 2px;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-accent-secondary);
+}
+
+.hero__metric-label {
+  text-align: left;
+  margin-top: var(--space-3);
+}
+
+.hero__metric-divider {
+  height: auto;
+  align-self: stretch;
+}
+
+/* ---- 5. 카테고리 카드: 인덱스 넘버 ------------------------ */
+.category-card {
+  position: relative;
+}
+
+.category-card::after {
+  content: attr(data-index);
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-6);
+  font-family: var(--font-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.08em;
+  color: var(--color-accent-secondary);
+}
+
+.category-card:hover {
+  border-color: var(--color-accent-secondary);
+}
+
+/* ---- 6. 베스트 제품 카드: 가격 디테일 --------------------- */
+.product-card__price-current {
+  font-family: var(--font-secondary);
+  letter-spacing: -0.01em;
+}
+
+/* ---- 7. 브랜드 스토리: 측정 태그 -------------------------- */
+.brand-story__image {
+  position: relative;
+  border-radius: var(--radius-sm);
+}
+
+.brand-story__tag {
+  position: absolute;
+  top: var(--space-5);
+  left: var(--space-5);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-secondary);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-white);
+  background-color: var(--color-bg-dark);
+}
+
+.brand-story__title em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-accent-secondary);
+}
+
+/* ---- 8. 어워드 섹션: 헤더 정렬 ---------------------------- */
+.trust-awards__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-12);
+}
+
+.trust-awards__head .trust-awards__title {
+  margin-bottom: 0;
+}
+
+/* ---- 간격 보정 ------------------------------------------- */
+.best-products .ad-rule {
+  margin-bottom: var(--space-8);
+}
+
+.brand-story__text .eyebrow {
+  margin-bottom: var(--space-4);
+}
+
+/* ---- 반응형 보정 ----------------------------------------- */
+@media (max-width: 767px) {
+  .hero__metric-value {
+    font-size: var(--text-2xl);
+  }
+
+  .ad-head__title {
+    font-size: var(--text-2xl);
+  }
+}
