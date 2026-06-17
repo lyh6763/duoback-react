@@ -33,7 +33,10 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Install dependencies
-        run: npm ci
+        # npm install (not ci): the lockfile is generated on Windows and
+        # npm ci's strict cross-platform check fails on the Linux runner
+        # over platform-specific optional deps (rollup/vite native binaries).
+        run: npm install
 
       - name: Build
         run: npm run build
