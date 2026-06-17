@@ -19,6 +19,7 @@ test('product image references exist in public assets', () => {
     const images = new Set([
       ...product.images,
       ...Object.values(product.colorImages ?? {}),
+      ...Object.values(product.colorViews ?? {}).flat(),
     ])
 
     for (const image of images) {

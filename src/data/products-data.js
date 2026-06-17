@@ -2,7 +2,35 @@
  * ========================================
  * Product Data (Single Source of Truth)
  * ========================================
+ *
+ * 이미지 규칙: images/products/{id}-{colorSlug}-{angle}.jpg
+ * angle ∈ front · left · right · rear
+ * 각 색상의 4각도(colorViews)에서 대표 이미지(images)와
+ * 색상별 썸네일(colorImages)을 파생한다.
  */
+
+const ANGLES = ['front', 'left', 'right', 'rear']
+
+const viewSet = (id, slug) =>
+  ANGLES.map(angle => `images/products/${id}-${slug}-${angle}.jpg`)
+
+function withImages(product) {
+  const colorViews = {}
+  const colorImages = {}
+
+  for (const color of product.colors) {
+    const views = viewSet(product.id, color.slug)
+    colorViews[color.name] = views
+    colorImages[color.name] = views[0]
+  }
+
+  return {
+    ...product,
+    images: colorViews[product.colors[0].name],
+    colorViews,
+    colorImages,
+  }
+}
 
 const PRODUCTS = [
   {
@@ -11,18 +39,10 @@ const PRODUCTS = [
     category: '사무용 의자',
     price: 890000,
     originalPrice: 1200000,
-    images: [
-      'images/products/Q1W_메쉬(1).jpg',
-      'images/products/Q1W_메쉬(2).jpg'
-    ],
     colors: [
-      { name: '블랙', color: '#000000' },
-      { name: '그레이', color: '#9E9E9E' }
+      { name: '블랙', color: '#000000', slug: 'black' },
+      { name: '그레이', color: '#9E9E9E', slug: 'gray' },
     ],
-    colorImages: {
-      '블랙': 'images/products/Q1W_메쉬(1).jpg',
-      '그레이': 'images/products/Q1W_메쉬(2).jpg'
-    },
     specs: {
       name: 'Q1W 메쉬',
       category: '사무용 의자',
@@ -49,21 +69,10 @@ const PRODUCTS = [
     name: 'DK-073W',
     category: '학생용 의자',
     price: 650000,
-    images: [
-      'images/products/DK-073W(1).jpg',
-      'images/products/DK-073W(2).jpg',
-      'images/products/DK-073W(3).jpg',
-      'images/products/DK-073W(4).jpg',
-      'images/products/DK-073W(5).jpg'
-    ],
     colors: [
-      { name: '블랙', color: '#000000' },
-      { name: '블루', color: '#2196F3' }
+      { name: '블랙', color: '#000000', slug: 'black' },
+      { name: '블루', color: '#2196F3', slug: 'blue' },
     ],
-    colorImages: {
-      '블랙': 'images/products/DK-073W(1).jpg',
-      '블루': 'images/products/DK-073W(2).jpg'
-    },
     specs: {
       name: 'DK-073W',
       category: '학생용 의자',
@@ -90,20 +99,10 @@ const PRODUCTS = [
     name: 'D3-HS 메쉬',
     category: '사무용 의자',
     price: 780000,
-    images: [
-      'images/products/D3-HS_메쉬(1).jpg',
-      'images/products/D3-HS_메쉬(2).jpg',
-      'images/products/D3-HS_메쉬(3).jpg',
-      'images/products/D3-HS_메쉬(4).jpg'
-    ],
     colors: [
-      { name: '블랙', color: '#000000' },
-      { name: '화이트', color: '#FFFFFF' }
+      { name: '블랙', color: '#000000', slug: 'black' },
+      { name: '화이트', color: '#FFFFFF', slug: 'white' },
     ],
-    colorImages: {
-      '블랙': 'images/products/D3-HS_메쉬(1).jpg',
-      '화이트': 'images/products/D3-HS_메쉬(2).jpg'
-    },
     specs: {
       name: 'D3-HS 메쉬',
       category: '사무용 의자',
@@ -130,17 +129,10 @@ const PRODUCTS = [
     name: 'D-043W PLUS',
     category: '학생용 의자',
     price: 520000,
-    images: [
-      'images/products/D-043W_PLUS.jpg'
-    ],
     colors: [
-      { name: '블랙', color: '#000000' },
-      { name: '블루', color: '#2196F3' }
+      { name: '블랙', color: '#000000', slug: 'black' },
+      { name: '블루', color: '#2196F3', slug: 'blue' },
     ],
-    colorImages: {
-      '블랙': 'images/products/D-043W_PLUS.jpg',
-      '블루': 'images/products/D-043W_PLUS.jpg'
-    },
     specs: {
       name: 'D-043W PLUS',
       category: '학생용 의자',
@@ -167,18 +159,10 @@ const PRODUCTS = [
     name: 'D2500G-DASW',
     category: '사무용 의자',
     price: 950000,
-    images: [
-      'images/products/D2500G-DASW(1).jpg',
-      'images/products/D2500G-DASW(2).jpg'
-    ],
     colors: [
-      { name: '블랙', color: '#000000' },
-      { name: '그레이', color: '#9E9E9E' }
+      { name: '블랙', color: '#000000', slug: 'black' },
+      { name: '그레이', color: '#9E9E9E', slug: 'gray' },
     ],
-    colorImages: {
-      '블랙': 'images/products/D2500G-DASW(1).jpg',
-      '그레이': 'images/products/D2500G-DASW(2).jpg'
-    },
     specs: {
       name: 'D2500G-DASW',
       category: '사무용 의자',
@@ -200,6 +184,6 @@ const PRODUCTS = [
     reviewCount: 178,
     releaseDate: '2024-11-22'
   }
-]
+].map(withImages)
 
 export default PRODUCTS

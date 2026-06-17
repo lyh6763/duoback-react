@@ -3,17 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { useCart } from '../../context/cart-context'
 import { formatPrice } from '../../utils/formatPrice'
 
-export default function ProductInfo({ product, onColorChange }) {
+export default function ProductInfo({ product, selectedColor, onColorChange }) {
   const { addToCart } = useCart()
   const navigate = useNavigate()
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]?.name || '')
   const [quantity, setQuantity] = useState(1)
-
-  function handleColorSelect(colorName) {
-    setSelectedColor(colorName)
-    const image = product.colorImages?.[colorName] || product.images[0]
-    onColorChange?.(image)
-  }
 
   function handleQuantityChange(delta) {
     setQuantity(q => Math.min(99, Math.max(1, q + delta)))
@@ -95,7 +88,7 @@ export default function ProductInfo({ product, onColorChange }) {
               key={name}
               className={`color-option${selectedColor === name ? ' color-option--active' : ''}`}
               aria-label={`${name} 선택`}
-              onClick={() => handleColorSelect(name)}
+              onClick={() => onColorChange(name)}
             >
               <span
                 className="color-swatch"

@@ -7,7 +7,15 @@ import ProductTabs from '../components/product-detail/ProductTabs'
 import RelatedProducts from '../components/product-detail/RelatedProducts'
 
 function ProductDetailContent({ product }) {
-  const [mainImage, setMainImage] = useState(product.images[0])
+  const [selectedColor, setSelectedColor] = useState(product.colors[0]?.name || '')
+  const views = product.colorViews?.[selectedColor] || product.images
+  const [mainImage, setMainImage] = useState(views[0])
+
+  function handleColorChange(colorName) {
+    setSelectedColor(colorName)
+    const nextViews = product.colorViews?.[colorName] || product.images
+    setMainImage(nextViews[0])
+  }
 
   return (
     <>
@@ -16,12 +24,16 @@ function ProductDetailContent({ product }) {
         <div className="container">
           <div className="product-info__container">
             <ProductGallery
-              images={product.images}
+              images={views}
               mainImage={mainImage}
               onImageSelect={setMainImage}
               tag={`${product.name} · ${product.category}`}
             />
-            <ProductInfo product={product} onColorChange={setMainImage} />
+            <ProductInfo
+              product={product}
+              selectedColor={selectedColor}
+              onColorChange={handleColorChange}
+            />
           </div>
         </div>
       </section>
