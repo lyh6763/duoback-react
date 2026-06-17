@@ -74,6 +74,7 @@ export default function Brand() {
       <section className="brand-philosophy">
         <div className="container">
           <div className="brand-philosophy__content">
+            <span className="eyebrow brand-philosophy__eyebrow">Philosophy</span>
             <h2 className="brand-philosophy__title">우리의 철학</h2>
             <blockquote className="brand-philosophy__quote">
               <p>"좋은 의자는 당신이 의자에 앉아있다는 것을 잊게 만듭니다."</p>
@@ -90,7 +91,10 @@ export default function Brand() {
       {/* 핵심 기술 */}
       <section className="technology">
         <div className="container">
-          <h2 className="section-title text-center">핵심 기술</h2>
+          <div className="brand-head">
+            <span className="eyebrow">Technology</span>
+            <h2 className="section-title">핵심 기술</h2>
+          </div>
           <div className="technology-grid">
             {TECHNOLOGIES.map(({ title, description, icon }) => (
               <div key={title} className="tech-card">
@@ -110,7 +114,10 @@ export default function Brand() {
       {/* 연혁 */}
       <section className="history">
         <div className="container">
-          <h2 className="section-title text-center">연혁</h2>
+          <div className="brand-head">
+            <span className="eyebrow">History</span>
+            <h2 className="section-title">연혁</h2>
+          </div>
           <div className="timeline">
             {TIMELINE.map(({ year, title, description }) => (
               <div key={year} className="timeline-item">
@@ -128,7 +135,10 @@ export default function Brand() {
       {/* 가치 */}
       <section className="values">
         <div className="container">
-          <h2 className="section-title text-center">우리의 가치</h2>
+          <div className="brand-head">
+            <span className="eyebrow">Values</span>
+            <h2 className="section-title">우리의 가치</h2>
+          </div>
           <div className="values-grid">
             {VALUES.map(({ number, title, description }) => (
               <div key={number} className="value-card">
