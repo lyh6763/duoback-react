@@ -482,6 +482,42 @@
   opacity: 0.9;
 }
 
+/* ============================================================
+   장바구니 / 고객지원 — 마무리 일관성
+   ============================================================ */
+
+/* ---- 18. 주문 요약 → readout ----------------------------- */
+.cart-summary {
+  border-top: 2px solid var(--color-accent);
+}
+
+.cart-summary__row span:last-child,
+.cart-summary__row--total strong {
+  font-family: var(--font-secondary);
+  letter-spacing: -0.01em;
+}
+
+.cart-summary__row--total strong {
+  color: var(--color-accent-secondary);
+}
+
+/* ---- 19. 고객지원 퀵링크 카드: 인덱스 -------------------- */
+.quick-link-card {
+  position: relative;
+}
+
+.quick-link-card::before {
+  content: attr(data-index);
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-5);
+  font-family: var(--font-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.08em;
+  color: var(--color-accent-secondary);
+}
+
 /* ---- 반응형 보정 ----------------------------------------- */
 @media (max-width: 767px) {
   .hero__metric-value {
