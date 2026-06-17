@@ -401,6 +401,21 @@
   color: var(--color-text-primary);
 }
 
+/* ============================================================
+   제품 목록 — 헤더 디테일
+   ============================================================ */
+
+/* ---- 13. 카탈로그 카운트 = 데이터 figure ------------------ */
+.page-header__count {
+  font-family: var(--font-secondary);
+  letter-spacing: 0.02em;
+}
+
+.page-header__count strong {
+  font-weight: var(--font-semibold);
+  color: var(--color-accent-secondary);
+}
+
 /* ---- 반응형 보정 ----------------------------------------- */
 @media (max-width: 767px) {
   .hero__metric-value {

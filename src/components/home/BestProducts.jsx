@@ -1,57 +1,10 @@
 import { Link } from 'react-router-dom'
 import PRODUCTS from '../../data/products-data'
-import { assetPath } from '../../utils/assetPath'
-import { formatPrice } from '../../utils/formatPrice'
+import ProductCard from '../products/ProductCard'
 
 const BEST = [...PRODUCTS]
   .sort((a, b) => b.popularScore - a.popularScore)
   .slice(0, 4)
-
-function ProductCard({ product }) {
-  const priceFormatted = formatPrice(product.price)
-  const originalFormatted = product.originalPrice
-    ? formatPrice(product.originalPrice)
-    : null
-
-  return (
-    <article className="product-card">
-      <Link to={`/products/${product.id}`} className="product-card__link">
-        <div className="product-card__image">
-          <img
-            src={assetPath(product.images[0])}
-            alt={product.name}
-            loading="lazy"
-            width="600"
-            height="600"
-          />
-        </div>
-        <div className="product-card__info">
-          <h3 className="product-card__name">{product.name}</h3>
-          <p className="product-card__category">{product.category}</p>
-          <div className="product-card__colors">
-            {product.colors.map(({ name, color }) => (
-              <span
-                key={name}
-                className="color-dot"
-                style={{
-                  backgroundColor: color,
-                  border: color === '#FFFFFF' ? '1px solid #E5E2DC' : undefined,
-                }}
-                aria-label={name}
-              />
-            ))}
-          </div>
-          <div className="product-card__price">
-            <span className="product-card__price-current">{priceFormatted}</span>
-            {originalFormatted && (
-              <span className="product-card__price-original">{originalFormatted}</span>
-            )}
-          </div>
-        </div>
-      </Link>
-    </article>
-  )
-}
 
 export default function BestProducts() {
   return (
