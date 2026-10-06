@@ -331,6 +331,12 @@
   display: block;
 }
 
+.product-card__image-link,
+.product-card__text-link {
+  display: block;
+  text-decoration: none;
+}
+
 .product-card__image {
   position: relative;
   width: 100%;
@@ -411,15 +417,27 @@
 }
 
 .color-dot {
+  display: inline-block;
   width: 16px;
   height: 16px;
+  padding: 0;
+  background: none;
+  border: 0;
   border-radius: var(--radius-full);
-  cursor: pointer;
   transition: transform var(--transition-fast);
 }
 
-.color-dot:hover {
+.color-dot--selectable {
+  cursor: pointer;
+}
+
+.color-dot--selectable:hover {
   transform: scale(1.2);
+}
+
+.color-dot--selectable:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
 /* Price */

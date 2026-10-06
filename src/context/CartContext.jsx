@@ -2,10 +2,18 @@ import { useState, useEffect } from 'react'
 import { CartContext } from './cart-context'
 
 const CART_STORAGE_KEY = 'duoback_cart'
+const MAX_CART_QUANTITY = 99
+
+function normalizeQuantity(value) {
+  const quantity = Number.parseInt(value, 10)
+  if (!Number.isFinite(quantity)) return 1
+  return Math.min(MAX_CART_QUANTITY, Math.max(1, quantity))
+}
 
 function normalizeCartItem(item) {
   return {
     ...item,
+    quantity: normalizeQuantity(item.quantity),
     price:
       typeof item.price === 'number'
         ? item.price
@@ -45,7 +53,7 @@ export function CartProvider({ children }) {
         const updated = [...prev]
         updated[existingIndex] = {
           ...updated[existingIndex],
-          quantity: updated[existingIndex].quantity + product.quantity,
+          quantity: normalizeQuantity(updated[existingIndex].quantity + product.quantity),
         }
         return updated
       }
@@ -70,7 +78,7 @@ export function CartProvider({ children }) {
     setCartItems(prev =>
       prev.map(item =>
         item.id === productId && item.selectedColor === selectedColor
-          ? { ...item, quantity }
+          ? { ...item, quantity: normalizeQuantity(quantity) }
           : item
       )
     )

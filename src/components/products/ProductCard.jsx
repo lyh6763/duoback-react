@@ -11,7 +11,6 @@ export default function ProductCard({ product, isList = false }) {
   const currentImage = product.colorImages?.[selectedColor] || product.images[0]
 
   function handleColorSelect(e, colorName) {
-    e.preventDefault()
     e.stopPropagation()
     setSelectedColor(colorName)
   }
@@ -36,35 +35,42 @@ export default function ProductCard({ product, isList = false }) {
 
   return (
     <article className="product-card">
-      <Link to={`/products/${product.id}`} className="product-card__link">
+      <div className="product-card__link">
         {/* Image */}
-        <div className="product-card__image">
-          <img
-            src={assetPath(currentImage)}
-            alt={`${product.name} ${selectedColor}`}
-            loading="lazy"
-            width="600"
-            height="600"
-          />
-        </div>
+        <Link to={`/products/${product.id}`} className="product-card__image-link">
+          <div className="product-card__image">
+            <img
+              src={assetPath(currentImage)}
+              alt={`${product.name} ${selectedColor}`}
+              loading="lazy"
+              width="600"
+              height="600"
+            />
+          </div>
+        </Link>
 
         {/* Info */}
         <div className="product-card__info">
-          <h3 className="product-card__name">{product.name}</h3>
-          <p className="product-card__category">{product.category}</p>
+          <Link to={`/products/${product.id}`} className="product-card__text-link">
+            <h3 className="product-card__name">{product.name}</h3>
+            <p className="product-card__category">{product.category}</p>
+          </Link>
 
           {/* 색상 도트 */}
           <div className="product-card__colors">
             {product.colors.map(({ name, color }) => (
-              <span
+              <button
                 key={name}
-                className={`color-dot${selectedColor === name ? ' is-active' : ''}`}
+                type="button"
+                className={`color-dot color-dot--selectable${selectedColor === name ? ' is-active' : ''}`}
                 style={{
                   backgroundColor: color,
                   border: color === '#FFFFFF' ? '1px solid #E5E2DC' : undefined,
                 }}
-                aria-label={name}
+                aria-label={`${name} 색상 보기`}
+                aria-pressed={selectedColor === name}
                 data-color={name}
+                onClick={(e) => handleColorSelect(e, name)}
               />
             ))}
           </div>
@@ -91,6 +97,7 @@ export default function ProductCard({ product, isList = false }) {
                   key={name}
                   type="button"
                   className={`color-chip${selectedColor === name ? ' is-active' : ''}`}
+                  aria-label={`${name} 색상 보기`}
                   aria-pressed={selectedColor === name}
                   onClick={(e) => handleColorSelect(e, name)}
                 >
@@ -115,7 +122,7 @@ export default function ProductCard({ product, isList = false }) {
             )}
           </div>
         </div>
-      </Link>
+      </div>
 
       {/* 리스트 전용: 액션 버튼 */}
       {isList && (

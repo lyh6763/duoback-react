@@ -221,9 +221,13 @@
   align-items: stretch;
 }
 
-.product-grid--list .product-card__image {
+.product-grid--list .product-card__image-link {
   width: 220px;
   flex: 0 0 220px;
+}
+
+.product-grid--list .product-card__image {
+  width: 100%;
 }
 
 .product-grid--list .product-card__info {
@@ -366,7 +370,7 @@
     flex-direction: column;
   }
 
-  .product-grid--list .product-card__image {
+  .product-grid--list .product-card__image-link {
     width: 100%;
     flex: 0 0 auto;
   }

@@ -409,6 +409,16 @@ p {
   transition: color var(--transition-normal);
 }
 
+.footer__link-button,
+.footer__legal-button {
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
 .footer__link:hover {
   color: var(--color-accent);
 }
@@ -425,8 +435,12 @@ p {
   justify-content: center;
   width: 40px;
   height: 40px;
+  padding: 0;
+  color: var(--color-text-white);
   background-color: rgba(255, 255, 255, 0.1);
+  border: 0;
   border-radius: var(--radius-sm);
+  cursor: pointer;
   transition: background-color var(--transition-normal);
 }
 
@@ -455,6 +469,10 @@ p {
   display: flex;
   gap: var(--space-6);
   font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer__legal-link {
   color: rgba(255, 255, 255, 0.8);
 }
 

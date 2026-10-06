@@ -54,6 +54,7 @@ export default function CartItem({ item }) {
             <button
               className="cart-item__quantity-btn"
               aria-label="수량 증가"
+              disabled={item.quantity >= 99}
               onClick={() => updateQuantity(item.id, item.selectedColor, item.quantity + 1)}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
