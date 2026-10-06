@@ -1,5 +1,11 @@
 # DUOBACK React
 
+> **이 프로젝트는 [DUOBACK Fit](https://github.com/lyh6763/duoback-fit)으로 리뉴얼되었습니다.**
+> 기획부터 다시 설계해 Next.js 16 · TypeScript로 새로 만들었습니다 — 체형 기반 의자 추천(Fit Finder), 비교, 매장 안내.
+> 배포: https://duoback-fit.vercel.app
+>
+> 아래는 리뉴얼 이전 버전(React SPA 쇼핑몰)의 기록입니다.
+
 듀오백 브랜드 쇼핑몰을 React SPA로 재구성한 포트폴리오 프로젝트입니다. 기존 정적 페이지의 브랜드 톤과 상품 탐색 흐름을 유지하면서, 라우팅, 상품 필터링, 검색 모달, 장바구니 상태 관리를 React 컴포넌트 중심으로 분리했습니다.
 
 ## 개요
