@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-14",
+  "scope": "Current duoback-react repository; not the separate duoback-fit deployment",
+  "implementationChanged": false,
+  "productCount": 5,
+  "imageReferenceCount": 40,
+  "declaredReviewTotalNotVerified": 598,
+  "sharedReviewBodies": 3,
+  "sharedRatingNotComputed": 4.8,
+  "footerUnavailableButtons": 6,
+  "unavailableControlsIncludingDesktopLogin": 7,
+  "shippingAndContactConsistencyConflictTypes": 2,
+  "observedKeyboardFailureTypes": 2,
+  "homeEnglishLabelsAndTags": 6,
+  "homeDecorativeCornerMarks": 4,
+  "mobileBaselineMeasuredPx": {
+    "viewport": [390, 844],
+    "heroHeight": 1219,
+    "metricsHeight": 439,
+    "bestProductsSectionTop": 1280,
+    "metricLabelFontSize": 10
+  },
+  "desktopBaselineMeasuredPx": {
+    "heroHeight": 701,
+    "metricsHeight": 167,
+    "bestProductsSectionTop": 782
+  },
+  "conditionalSimulationsNotObservedResults": {
+    "mobileMetrics": {
+      "targetHeightPx": 96,
+      "savedHeightPx": 343,
+      "heightReductionPercentRounded": 78,
+      "newHeroHeightPxIfOtherGeometryUnchanged": 876,
+      "newBestSectionTopPxIfOtherGeometryUnchanged": 937,
+      "bestSectionPositionReductionPercentRounded": 27
+    },
+    "compareTwoSpecTablesClickModel": {
+      "listingRoundTrip": 5,
+      "existingRelatedProductPath": 4,
+      "proposedSelectAndCompare": 3,
+      "reductionPercentRange": [25, 40]
+    },
+    "compareThreeSpecTablesClickModel": {
+      "listingRoundTrip": 8,
+      "existingRelatedProductPath": 6,
+      "proposedSelectAndCompare": 4,
+      "reductionPercentRangeRounded": [33, 50]
+    },
+    "budgetFilterUsingUnverifiedRepositoryPrices": {
+      "maxPrice": 800000,
+      "allBefore": 5,
+      "allAfterIds": ["dk073w", "d3hs", "d043w"],
+      "officeBefore": 3,
+      "officeAfterIds": ["d3hs"]
+    }
+  },
+  "validation": {
+    "lint": "passed",
+    "defaultNpmTest": "blocked by environment spawn EPERM",
+    "nodeTestWithoutProcessIsolation": "3 passed, 0 failed",
+    "unmeasured": ["AI impression change", "trust score change", "decision time change", "conversion uplift"]
+  }
+}
