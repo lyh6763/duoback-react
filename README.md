@@ -74,11 +74,13 @@ npm test
 
 ## 검증 메모
 
-2026-11-10, `fix/trust-cleanup` 브랜치 기준:
+2026-11-10, `fix/trust-cleanup` 보존 후 `fix/keyboard-overflow`에서 확인한 결과:
 
 - `npm run lint`: 경고 0
 - `npm test`: 14개 통과(제품 데이터·가격 스냅숏 대조, 예산 탐색, 비교 목록, 장바구니 값 정규화)
-- `npm run build`: 통과
+- `npm run build:direct`: ASCII 임시 경로의 소스 사본에서 프로덕션 빌드 통과
+- 1920·1440·768·375px의 28개 화면에서 가로 넘침·콘솔 오류·실패한 자산 요청 없음. 검색·모바일 메뉴·상세 탭·비교 트레이를 키보드로 확인
+- 본문 바로가기가 현재 라우트·필터를 유지하고 본문으로 포커스를 옮기도록 수정. 상세 그리드의 최소 너비를 풀어 375px 화면의 문서 너비 380px 문제 해결
 - GitHub Actions(`deploy.yml`)는 `main` 푸시 때 `npm install`과 `npm run build`만 실행합니다. 린트와 테스트는 로컬에서 돌립니다.
 
 ## 배포
