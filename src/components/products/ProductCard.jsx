@@ -1,12 +1,20 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../../context/cart-context'
 import { assetPath } from '../../utils/assetPath'
 import { formatPrice } from '../../utils/formatPrice'
+import CompareButton from './CompareButton'
 
 export default function ProductCard({ product, isList = false }) {
   const { addToCart } = useCart()
   const [selectedColor, setSelectedColor] = useState(product.colors[0]?.name || '')
+  const [addedFeedback, setAddedFeedback] = useState(false)
+
+  useEffect(() => {
+    if (!addedFeedback) return
+    const timer = setTimeout(() => setAddedFeedback(false), 1800)
+    return () => clearTimeout(timer)
+  }, [addedFeedback])
 
   const currentImage = product.colorImages?.[selectedColor] || product.images[0]
 
@@ -26,6 +34,7 @@ export default function ProductCard({ product, isList = false }) {
       quantity: 1,
       image: currentImage,
     })
+    setAddedFeedback(true)
   }
 
   const priceFormatted = formatPrice(product.price)
@@ -56,6 +65,8 @@ export default function ProductCard({ product, isList = false }) {
             <p className="product-card__category">{product.category}</p>
           </Link>
 
+          <p className="product-card__facts"><span>좌판 {product.specs.seatHeight}</span><span>팔걸이 {product.specs.armrest}</span></p>
+
           {/* 색상 도트 */}
           <div className="product-card__colors">
             {product.colors.map(({ name, color }) => (
@@ -67,7 +78,7 @@ export default function ProductCard({ product, isList = false }) {
                   backgroundColor: color,
                   border: color === '#FFFFFF' ? '1px solid #E5E2DC' : undefined,
                 }}
-                aria-label={`${name} 색상 보기`}
+                aria-label={`${name} 참고 이미지 보기`}
                 aria-pressed={selectedColor === name}
                 data-color={name}
                 onClick={(e) => handleColorSelect(e, name)}
@@ -97,7 +108,7 @@ export default function ProductCard({ product, isList = false }) {
                   key={name}
                   type="button"
                   className={`color-chip${selectedColor === name ? ' is-active' : ''}`}
-                  aria-label={`${name} 색상 보기`}
+                  aria-label={`${name} 참고 이미지 보기`}
                   aria-pressed={selectedColor === name}
                   onClick={(e) => handleColorSelect(e, name)}
                 >
@@ -121,6 +132,7 @@ export default function ProductCard({ product, isList = false }) {
               <span className="product-card__price-original">{originalFormatted}</span>
             )}
           </div>
+          <CompareButton product={product} />
         </div>
       </div>
 
@@ -135,7 +147,7 @@ export default function ProductCard({ product, isList = false }) {
             className="btn btn--primary btn--small"
             onClick={handleAddToCart}
           >
-            장바구니 담기
+            {addedFeedback ? '담았습니다 ✓' : '장바구니 담기'}
           </button>
         </div>
       )}

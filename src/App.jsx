@@ -6,12 +6,14 @@ import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
 import Brand from './pages/Brand'
 import Support from './pages/Support'
+import Compare from './pages/Compare'
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout><Home /></Layout>} />
       <Route path="/products" element={<Layout><Products /></Layout>} />
+      <Route path="/compare" element={<Layout><Compare /></Layout>} />
       <Route path="/products/:id" element={<Layout><ProductDetail /></Layout>} />
       <Route path="/cart" element={<Layout><Cart /></Layout>} />
       <Route path="/brand" element={<Layout><Brand /></Layout>} />

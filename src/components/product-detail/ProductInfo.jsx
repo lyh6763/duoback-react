@@ -1,20 +1,40 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../../context/cart-context'
 import { formatPrice } from '../../utils/formatPrice'
+import { PRICE_NOTICE } from '../../data/purchase-guide'
+import CompareButton from '../products/CompareButton'
 
 export default function ProductInfo({ product, selectedColor, onColorChange }) {
   const { addToCart } = useCart()
   const navigate = useNavigate()
   const [quantity, setQuantity] = useState(1)
+  const [addedFeedback, setAddedFeedback] = useState(false)
+
+  useEffect(() => {
+    if (!addedFeedback) return
+    const timer = setTimeout(() => setAddedFeedback(false), 2000)
+    return () => clearTimeout(timer)
+  }, [addedFeedback])
+
+  const numericQty = typeof quantity === 'number' ? quantity : (parseInt(quantity, 10) || 1)
 
   function handleQuantityChange(delta) {
-    setQuantity(q => Math.min(99, Math.max(1, q + delta)))
+    setQuantity(Math.min(99, Math.max(1, numericQty + delta)))
   }
 
   function handleInputChange(e) {
-    const val = parseInt(e.target.value)
+    const raw = e.target.value
+    if (raw === '') {
+      setQuantity('')
+      return
+    }
+    const val = parseInt(raw, 10)
     if (!isNaN(val)) setQuantity(Math.min(99, Math.max(1, val)))
+  }
+
+  function handleInputBlur() {
+    setQuantity(numericQty)
   }
 
   function getCartPayload() {
@@ -24,13 +44,14 @@ export default function ProductInfo({ product, selectedColor, onColorChange }) {
       category: product.category,
       price: product.price,
       selectedColor,
-      quantity,
+      quantity: numericQty,
       image: product.colorImages?.[selectedColor] || product.images[0],
     }
   }
 
   function handleAddToCart() {
     addToCart(getCartPayload())
+    setAddedFeedback(true)
   }
 
   function handleBuyNow() {
@@ -44,13 +65,13 @@ export default function ProductInfo({ product, selectedColor, onColorChange }) {
 
   const keySpecs = [
     { label: '좌판 높이', value: product.specs?.seatHeight },
-    { label: '최대 하중', value: product.specs?.maxWeight },
+    { label: '제품 무게', value: product.specs?.weight },
     { label: '팔걸이', value: product.specs?.armrest },
   ].filter(spec => spec.value)
 
   return (
     <div className="product-details">
-      <p className="eyebrow product-details__eyebrow">Precision Series</p>
+      <p className="eyebrow product-details__eyebrow">제품 정보</p>
       <h1 className="product-details__title">{product.name}</h1>
       <p className="product-details__category">{product.category}</p>
 
@@ -63,7 +84,10 @@ export default function ProductInfo({ product, selectedColor, onColorChange }) {
             <span className="price-discount">{discount}%</span>
           </>
         )}
+        <span className="price-basis">{product.priceBasis}, {PRICE_NOTICE}</span>
       </div>
+
+      <CompareButton product={product} />
 
       {/* 핵심 사양 readout */}
       {keySpecs.length > 0 && (
@@ -81,7 +105,8 @@ export default function ProductInfo({ product, selectedColor, onColorChange }) {
 
       {/* 컬러 선택 */}
       <div className="product-option">
-        <h3 className="product-option__label">컬러</h3>
+        <h3 className="product-option__label">참고 이미지 색상</h3>
+        <p className="gallery-notice">공식 판매 색상: {product.specs.colors}</p>
         <div className="color-selector">
           {product.colors.map(({ name, color }) => (
             <button
@@ -110,9 +135,10 @@ export default function ProductInfo({ product, selectedColor, onColorChange }) {
         <h3 className="product-option__label">수량</h3>
         <div className="quantity-selector">
           <button
+            type="button"
             className="quantity-btn quantity-btn--minus"
             aria-label="수량 감소"
-            disabled={quantity <= 1}
+            disabled={numericQty <= 1}
             onClick={() => handleQuantityChange(-1)}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -127,11 +153,13 @@ export default function ProductInfo({ product, selectedColor, onColorChange }) {
             max="99"
             aria-label="수량"
             onChange={handleInputChange}
+            onBlur={handleInputBlur}
           />
           <button
+            type="button"
             className="quantity-btn quantity-btn--plus"
             aria-label="수량 증가"
-            disabled={quantity >= 99}
+            disabled={numericQty >= 99}
             onClick={() => handleQuantityChange(1)}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -145,43 +173,21 @@ export default function ProductInfo({ product, selectedColor, onColorChange }) {
       {/* 액션 버튼 */}
       <div className="product-details__actions">
         <button type="button" className="btn btn--secondary btn--large" onClick={handleAddToCart}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <circle cx="9" cy="21" r="1" />
             <circle cx="20" cy="21" r="1" />
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
           </svg>
-          장바구니 담기
+          {addedFeedback ? '장바구니에 담았습니다 ✓' : '장바구니 담기'}
         </button>
         <button type="button" className="btn btn--primary btn--large" onClick={handleBuyNow}>
-          바로 구매하기
+          주문 내용 보기
         </button>
       </div>
+      <p role="status" aria-live="polite" className="visually-hidden">
+        {addedFeedback ? `${product.name} ${selectedColor} ${numericQty}개를 장바구니에 담았습니다.` : ''}
+      </p>
 
-      {/* 특징 */}
-      <div className="product-features">
-        <div className="feature-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
-          <span>인체공학 설계</span>
-        </div>
-        <div className="feature-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-          <span>3년 품질 보증</span>
-        </div>
-        <div className="feature-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <rect x="1" y="3" width="15" height="13" />
-            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-            <circle cx="5.5" cy="18.5" r="2.5" />
-            <circle cx="18.5" cy="18.5" r="2.5" />
-          </svg>
-          <span>무료 배송</span>
-        </div>
-      </div>
     </div>
   )
 }

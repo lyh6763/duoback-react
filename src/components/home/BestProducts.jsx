@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom'
 import PRODUCTS from '../../data/products-data'
 import ProductCard from '../products/ProductCard'
+import { IMAGE_NOTICE } from '../../data/purchase-guide'
 
-const BEST = [...PRODUCTS]
-  .sort((a, b) => b.popularScore - a.popularScore)
-  .slice(0, 4)
+const BEST = PRODUCTS.slice(0, 4)
 
 export default function BestProducts() {
   return (
@@ -12,12 +11,12 @@ export default function BestProducts() {
       <div className="container">
         <div className="best-products__header">
           <div className="ad-head">
-            <span className="eyebrow">Best Sellers</span>
+            <span className="eyebrow">Collection</span>
             <div className="ad-head__top">
               <span className="ad-head__index">(01)</span>
-              <h2 className="ad-head__title">가장 많이 <em>선택된</em> 체어</h2>
+              <h2 className="ad-head__title">먼저 살펴볼 <em>네 가지</em> 모델</h2>
             </div>
-            <p className="ad-head__sub">지금 가장 많이 찾는 상위 4개 모델</p>
+            <p className="ad-head__sub">카탈로그에 등록된 순서입니다. {IMAGE_NOTICE}</p>
           </div>
           <Link to="/products" className="btn btn--ghost best-products__link">전체보기 →</Link>
         </div>

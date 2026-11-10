@@ -2,92 +2,36 @@ import { Link } from 'react-router-dom'
 import { ACTIVE_CATEGORIES } from '../data/categories'
 
 export default function Footer() {
-  function handleUnavailableLink() {
-    alert('준비 중입니다.')
-  }
-
   return (
     <footer className="footer">
       <div className="footer__container">
-        {/* Logo */}
         <Link to="/" className="footer__logo">DUOBACK</Link>
-
-        {/* Content */}
         <div className="footer__content">
-          {/* 제품 */}
           <div className="footer__column">
             <h4 className="footer__column-title">제품</h4>
+            <ul className="footer__links">{ACTIVE_CATEGORIES.map(({ key, label }) => (
+              <li key={key}><Link to={'/products?category=' + key} className="footer__link">{label}</Link></li>
+            ))}</ul>
+          </div>
+          <div className="footer__column">
+            <h4 className="footer__column-title">구매 전 확인</h4>
             <ul className="footer__links">
-              {ACTIVE_CATEGORIES.map(({ key, label }) => (
-                <li key={key}>
-                  <Link to={`/products?category=${key}`} className="footer__link">{label}</Link>
-                </li>
-              ))}
+              <li><Link to="/support#faq" className="footer__link">자주 묻는 질문</Link></li>
+              <li><Link to="/support#as" className="footer__link">A/S 입력 체험</Link></li>
+              <li><Link to="/support#stores" className="footer__link">매장 방문 전 확인</Link></li>
             </ul>
           </div>
-
-          {/* 고객지원 */}
           <div className="footer__column">
-            <h4 className="footer__column-title">고객지원</h4>
+            <h4 className="footer__column-title">프로젝트</h4>
             <ul className="footer__links">
-              <li><Link to="/support#faq" className="footer__link">FAQ</Link></li>
-              <li><Link to="/support#as" className="footer__link">A/S 신청</Link></li>
-              <li><Link to="/support#stores" className="footer__link">매장 안내</Link></li>
-              <li><Link to="/support#contact" className="footer__link">1:1 문의</Link></li>
+              <li><Link to="/brand" className="footer__link">제품 탐색 안내</Link></li>
+              <li><Link to="/support#project" className="footer__link">데모와 데이터 안내</Link></li>
+              <li><Link to="/support#storage" className="footer__link">입력·저장 정보 안내</Link></li>
             </ul>
-          </div>
-
-          {/* 회사정보 */}
-          <div className="footer__column">
-            <h4 className="footer__column-title">회사정보</h4>
-            <ul className="footer__links">
-              <li><Link to="/brand" className="footer__link">회사소개</Link></li>
-              <li><Link to="/support#stores" className="footer__link">오시는 길</Link></li>
-              <li>
-                <button type="button" className="footer__link footer__link-button" onClick={handleUnavailableLink}>
-                  채용 안내
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* SNS */}
-          <div className="footer__column">
-            <h4 className="footer__column-title">SNS</h4>
-            <div className="footer__sns">
-              <button type="button" className="footer__sns-link" aria-label="인스타그램" onClick={handleUnavailableLink}>
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="currentColor" strokeWidth="2" />
-                  <circle cx="17.5" cy="6.5" r="1.5" />
-                </svg>
-              </button>
-              <button type="button" className="footer__sns-link" aria-label="페이스북" onClick={handleUnavailableLink}>
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                </svg>
-              </button>
-              <button type="button" className="footer__sns-link" aria-label="유튜브" onClick={handleUnavailableLink}>
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
-                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="none" stroke="#2D2A26" strokeWidth="2" />
-                </svg>
-              </button>
-            </div>
           </div>
         </div>
-
-        {/* Bottom */}
         <div className="footer__bottom">
-          <p className="footer__copyright">© 2026 DUOBACK. All rights reserved.</p>
-          <div className="footer__legal">
-            <button type="button" className="footer__legal-link footer__legal-button" onClick={handleUnavailableLink}>
-              개인정보처리방침
-            </button>
-            <button type="button" className="footer__legal-link footer__legal-button" onClick={handleUnavailableLink}>
-              이용약관
-            </button>
-          </div>
+          <p className="footer__copyright">듀오백을 소재로 제작한 독립 포트폴리오 · 공식 판매·고객지원 사이트가 아닙니다.</p>
         </div>
       </div>
     </footer>

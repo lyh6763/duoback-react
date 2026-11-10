@@ -115,6 +115,25 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Skip Link */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10002;
+  padding: var(--space-3) var(--space-5);
+  background-color: var(--color-accent-dark);
+  color: var(--color-text-white);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  text-decoration: none;
+  border-radius: 0 0 var(--radius-sm) 0;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
 
 /* ----------------------------------------
    Container
@@ -1195,4 +1214,68 @@ p {
   .mobile-menu {
     display: none;
   }
+}
+
+/* Portfolio scope and confirmation states */
+.content-note {
+  margin-bottom: var(--space-6);
+  padding: var(--space-4);
+  border-left: 2px solid var(--color-accent);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+.purchase-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+.purchase-guide-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-white);
+}
+.purchase-guide-card h3 { font-size: var(--text-lg); }
+.purchase-guide-card p { color: var(--color-text-secondary); }
+.purchase-guide-card span { margin-top: auto; font-size: var(--text-sm); color: var(--color-accent); }
+.purchase-guide-card:hover { border-color: var(--color-accent); }
+.order-preview, .form-preview {
+  margin: var(--space-6) 0;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-primary);
+  overflow-wrap: anywhere;
+}
+.order-preview h3, .form-preview h3 { margin-bottom: var(--space-3); font-size: var(--text-lg); }
+.order-preview p, .form-preview p { margin-top: var(--space-3); font-size: var(--text-sm); }
+.order-preview ul { margin-top: var(--space-4); }
+.order-preview li + li { margin-top: var(--space-2); }
+.preview-details { margin-top: var(--space-4); }
+.preview-details > div { padding: var(--space-3) 0; border-top: 1px solid var(--color-border); }
+.preview-details dt { font-size: var(--text-sm); color: var(--color-text-secondary); }
+.preview-details dd { margin-top: var(--space-1); white-space: pre-wrap; }
+.project-info { padding: var(--space-16) 0; background-color: var(--color-bg-white); }
+.project-info .container { max-width: 900px; }
+.project-info p + p { margin-top: var(--space-4); }
+.project-info h3 { margin: var(--space-10) 0 var(--space-4); }
+:is(#faq, #as, #stores, #project, #storage) { scroll-margin-top: calc(var(--header-height) + var(--space-4)); }
+:is(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+@media (max-width: 1023px) {
+  .purchase-guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+  .purchase-guide-grid { grid-template-columns: 1fr; }
+  :is(#faq, #as, #stores, #project, #storage) { scroll-margin-top: calc(var(--header-height-mobile) + var(--space-4)); }
+}
+@media (min-width: 768px) {
+  .values .values-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }

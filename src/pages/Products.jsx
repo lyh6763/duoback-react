@@ -1,79 +1,52 @@
-import { useState, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import PRODUCTS from '../data/products-data'
-import { ACTIVE_CATEGORIES, ACTIVE_CATEGORY_KEYS, CATEGORY_MATCHES } from '../data/categories'
+import { ACTIVE_CATEGORIES, ACTIVE_CATEGORY_KEYS } from '../data/categories'
+import { discoverProducts, parseBudget } from '../utils/productDiscovery'
+import { PRICE_NOTICE, IMAGE_NOTICE } from '../data/purchase-guide'
 import ProductsHeader from '../components/products/ProductsHeader'
 import FilterBar from '../components/products/FilterBar'
 import ProductCard from '../components/products/ProductCard'
 
-function sortProducts(list, sort) {
-  const sorted = [...list]
-  switch (sort) {
-    case 'price-low':  return sorted.sort((a, b) => a.price - b.price)
-    case 'price-high': return sorted.sort((a, b) => b.price - a.price)
-    case 'popular':    return sorted.sort((a, b) => b.popularScore - a.popularScore)
-    case 'review':     return sorted.sort((a, b) => b.reviewCount - a.reviewCount)
-    case 'newest':     return sorted.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate))
-    case 'oldest':     return sorted.sort((a, b) => new Date(a.releaseDate) - new Date(b.releaseDate))
-    default:           return sorted
-  }
-}
-
 export default function Products() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [sort, setSort] = useState('')
-  const [view, setView] = useState('grid')
-
   const categoryParam = searchParams.get('category')
-  const category = categoryParam && ACTIVE_CATEGORY_KEYS.has(categoryParam)
-    ? categoryParam
-    : 'all'
+  const category = ACTIVE_CATEGORY_KEYS.has(categoryParam) ? categoryParam : 'all'
+  const budget = parseBudget(searchParams.get('budget'))
+  const sort = ['price-low', 'price-high'].includes(searchParams.get('sort')) ? searchParams.get('sort') : ''
+  const view = searchParams.get('view') === 'list' ? 'list' : 'grid'
+  const displayed = useMemo(() => discoverProducts(PRODUCTS, { category, budget, sort }), [category, budget, sort])
 
-  function handleCategoryChange(key) {
+  function updateParam(key, value, replace = false) {
     const next = new URLSearchParams(searchParams)
-    if (key === 'all') {
-      next.delete('category')
-    } else {
-      next.set('category', key)
-    }
-    setSearchParams(next)
+    if (value === '' || value === 'all' || (key === 'view' && value === 'grid')) next.delete(key)
+    else next.set(key, value)
+    setSearchParams(next, { replace })
   }
-
-  const filtered = useMemo(() => {
-    const matches = CATEGORY_MATCHES[category]
-    if (!matches) return PRODUCTS
-    return PRODUCTS.filter(p => matches.includes(p.category))
-  }, [category])
-
-  const displayed = useMemo(() => sortProducts(filtered, sort), [filtered, sort])
-
-  const isList = view === 'list'
-
+  function resetFilters() {
+    setSearchParams(view === 'list' ? { view: 'list' } : {})
+  }
   return (
     <>
       <ProductsHeader category={category} count={displayed.length} />
-      <FilterBar
-        category={category}
-        categories={ACTIVE_CATEGORIES}
-        onCategoryChange={handleCategoryChange}
-        sort={sort}
-        onSortChange={setSort}
-        view={view}
-        onViewChange={setView}
-      />
-
+      <FilterBar category={category} categories={ACTIVE_CATEGORIES}
+        onCategoryChange={value => updateParam('category', value)}
+        budget={budget} onBudgetChange={(value, options) => updateParam('budget', value, options?.replace ?? false)}
+        sort={sort} onSortChange={value => updateParam('sort', value)}
+        view={view} onViewChange={value => updateParam('view', value)} />
       <section className="products-section">
         <div className="container">
+          <p className="catalog-note">가격은 2026-10-14 공식몰 기본 판매가입니다({PRICE_NOTICE}). {IMAGE_NOTICE}</p>
+          <p role="status" className="catalog-result">조건에 맞는 모델 {displayed.length}개{budget !== null ? ' · 예산 상한 ' + budget.toLocaleString('ko-KR') + '원' : ''}</p>
           {displayed.length === 0 ? (
             <div className="products-empty">
-              <p className="products-empty__title">해당 카테고리 제품이 준비 중입니다.</p>
-              <p className="products-empty__desc">다른 카테고리를 확인해 주세요.</p>
+              <h2 className="products-empty__title">조건에 맞는 모델이 없습니다.</h2>
+              <p className="products-empty__desc">예산을 높이거나 다른 용도를 선택해보세요.</p>
+              <button type="button" className="btn btn--secondary" onClick={resetFilters}>필터 초기화</button>
             </div>
           ) : (
-            <div className={`product-grid${isList ? ' product-grid--list' : ''}`}>
-              {displayed.map(product => (
-                <ProductCard key={product.id} product={product} isList={isList} />
-              ))}
+            <div className={'product-grid' + (view === 'list' ? ' product-grid--list' : '')}>
+              {displayed.map(product => <ProductCard key={product.id} product={product} isList={view === 'list'} />)}
             </div>
           )}
         </div>

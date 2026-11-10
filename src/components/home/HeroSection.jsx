@@ -1,61 +1,48 @@
 import { Link } from 'react-router-dom'
 import { assetPath } from '../../utils/assetPath'
+import PRODUCTS from '../../data/products-data'
+import { summarizeCatalog } from '../../utils/productDiscovery'
+
+const SUMMARY = summarizeCatalog(PRODUCTS)
+const toManwon = won => String(Math.round(won / 1000) / 10)
+const range = ([min, max], format = String) => min === max ? format(min) : format(min) + '–' + format(max)
+
+const METRICS = [
+  { value: range(SUMMARY.price, toManwon), unit: '만원', label: '기본 판매가 범위' },
+  { value: range(SUMMARY.seatHeight), unit: 'mm', label: '좌판 높이 범위' },
+  { value: SUMMARY.armrests.join('·'), unit: '', label: '팔걸이 방식' },
+]
 
 export default function HeroSection() {
   return (
     <section className="hero">
       <div className="container">
         <div className="hero__inner">
-
           <div className="hero__left">
-            <p className="hero__eyebrow eyebrow">Precision Ergonomics · Since 1993</p>
-            <h1 className="hero__title">
-              당신의 자세를 설계하는<br />
-              <em className="editorial">인체공학</em> 체어
-            </h1>
-            <p className="hero__subtitle">
-              인체 데이터를 기반으로 한 듀오백의 설계 철학은
-              "오래 앉아도 흐트러지지 않는 몸의 균형"을 목표로 합니다.
-            </p>
+            <p className="hero__eyebrow eyebrow">DUOBACK Collection</p>
+            <h1 className="hero__title">의자, 모델별로<br />비교해보세요</h1>
+            <p className="hero__subtitle">예산으로 후보를 좁히고, 좌판 높이와 팔걸이의 차이를 확인하세요.</p>
             <div className="hero__actions">
-              <Link to="/products" className="btn btn--primary">제품 보러가기</Link>
-              <Link to="/brand" className="btn btn--ghost">브랜드 스토리 →</Link>
+              <Link to="/products" className="btn btn--primary">모델 고르고 비교하기</Link>
+              <Link to="/brand" className="hero__guide">선택 가이드 →</Link>
             </div>
           </div>
-
           <div className="hero__right">
             <div className="hero__visual">
-              <span className="hero__tick hero__tick--tl"></span>
-              <span className="hero__tick hero__tick--tr"></span>
-              <span className="hero__tick hero__tick--bl"></span>
-              <span className="hero__tick hero__tick--br"></span>
-              <img
-                src={assetPath('images/products/D2500G-DASW(1).jpg')}
-                alt="D2500G-DASW 인체공학 의자"
-                className="hero__product-image"
-              />
-              <span className="hero__spec">D2500G · 4D Ergonomic</span>
+              <img src={assetPath('images/products/D2500G-DASW(1).jpg')}
+                alt="D2500G-DASW 공간 연출 참고 이미지" className="hero__product-image" width="800" height="800" />
+              <span className="hero__spec">D2500G-DASW</span>
             </div>
           </div>
-
         </div>
-
-        <div className="hero__metrics-bar">
-          <div className="hero__metric" data-index="01">
-            <span className="hero__metric-value">30<span className="unit">+</span></span>
-            <span className="hero__metric-label">연구 연수</span>
-          </div>
-          <div className="hero__metric-divider"></div>
-          <div className="hero__metric" data-index="02">
-            <span className="hero__metric-value">4<span className="unit">D</span></span>
-            <span className="hero__metric-label">조절 시스템</span>
-          </div>
-          <div className="hero__metric-divider"></div>
-          <div className="hero__metric" data-index="03">
-            <span className="hero__metric-value">130<span className="unit">kg</span></span>
-            <span className="hero__metric-label">최대 하중</span>
-          </div>
-        </div>
+        <dl className="hero__metrics-bar" aria-label={PRODUCTS.length + '개 모델 요약'}>
+          {METRICS.map(({ value, unit, label }) => (
+            <div key={label} className="hero__metric">
+              <dt className="hero__metric-label">{label}</dt>
+              <dd className="hero__metric-value">{value}{unit && <span className="unit">{unit}</span>}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   )

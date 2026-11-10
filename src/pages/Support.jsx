@@ -1,232 +1,143 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PRODUCTS from '../data/products-data'
+import { PURCHASE_GUIDE } from '../data/purchase-guide'
 
 const FAQ_ITEMS = [
-  { id: 1, category: 'product', question: '제품의 보증 기간은 얼마나 되나요?', answer: '듀오백 제품은 구매일로부터 3년간 무상 A/S를 제공합니다. 단, 고객 과실로 인한 파손은 유상 처리됩니다.' },
-  { id: 2, category: 'delivery', question: '배송 기간은 얼마나 걸리나요?', answer: '주문 확인 후 2-3 영업일 내 배송됩니다. 도서산간 지역은 추가 1-2일이 소요될 수 있습니다.' },
-  { id: 3, category: 'product', question: '의자 조립이 어렵지 않나요?', answer: '모든 제품에 상세한 조립 설명서가 포함되어 있으며, 대부분 30분 이내에 조립 가능합니다. 유튜브에서 조립 영상도 확인하실 수 있습니다.' },
-  { id: 4, category: 'payment', question: '교환 및 환불은 어떻게 하나요?', answer: '제품 수령 후 7일 이내에 고객센터로 연락주시면 교환 또는 환불이 가능합니다. 단, 제품 사용 흔적이 있거나 포장이 훼손된 경우 교환/환불이 불가능할 수 있습니다.' },
-  { id: 5, category: 'as', question: 'A/S는 어디서 받을 수 있나요?', answer: '고객센터(1588-1234)로 연락 주시거나 홈페이지에서 A/S를 신청하시면 전담 직원이 방문하여 처리해드립니다. 전국 서비스센터 방문도 가능합니다.' },
-  { id: 6, category: 'delivery', question: '배송비는 얼마인가요?', answer: '전 제품 무료 배송입니다. 도서산간 지역도 추가 배송비 없이 무료로 배송해드립니다.' },
-  { id: 7, category: 'product', question: '제품의 최대 하중은 얼마인가요?', answer: '제품마다 다르지만, 대부분의 듀오백 의자는 120kg까지 안전하게 사용 가능합니다. 프리미엄 라인은 최대 130kg까지 지원합니다.' },
-  { id: 8, category: 'payment', question: '할부 구매가 가능한가요?', answer: '네, 모든 신용카드로 2-12개월 무이자 할부가 가능합니다. 카드사별 무이자 혜택은 결제 페이지에서 확인하실 수 있습니다.' },
+  { id: 'product-data', category: 'product', question: '상품 정보는 어디서 가져왔나요?', answer: '가격과 사양은 2026-10-14 듀오백 공식몰의 상품 정보와 치수 도면에서 옮겼고, 사양표 항목마다 원문 링크를 달았습니다. 공식 자료에서 찾지 못한 항목은 —로 표시합니다. 제품 사진은 포트폴리오용 참고 이미지입니다.' },
+  ...PURCHASE_GUIDE,
+  { id: 'cart-storage', category: 'product', question: '장바구니는 다시 방문해도 유지되나요?', answer: '장바구니는 현재 브라우저에 저장됩니다. 다른 기기나 브라우저와는 공유되지 않습니다. 상품을 삭제하거나 브라우저의 사이트 데이터를 지우면 저장 내역을 없앨 수 있습니다.' },
 ]
-
 const FAQ_CATEGORIES = [
-  { key: 'all', label: '전체' },
-  { key: 'product', label: '제품' },
-  { key: 'delivery', label: '배송' },
-  { key: 'as', label: 'A/S' },
-  { key: 'payment', label: '결제/환불' },
+  { key: 'all', label: '전체' }, { key: 'product', label: '제품' },
+  { key: 'delivery', label: '배송' }, { key: 'as', label: 'A/S' }, { key: 'payment', label: '결제/환불' },
 ]
-
-const STORES = [
-  {
-    name: '서울 강남점',
-    address: '서울특별시 강남구 테헤란로 123',
-    phone: '02-1234-5678',
-    hours: '평일 10:00 - 19:00 / 주말 11:00 - 18:00',
-  },
-  {
-    name: '부산 서면점',
-    address: '부산광역시 부산진구 서면로 456',
-    phone: '051-1234-5678',
-    hours: '평일 10:00 - 19:00 / 주말 11:00 - 18:00',
-  },
-  {
-    name: '대구 동성로점',
-    address: '대구광역시 중구 동성로 789',
-    phone: '053-1234-5678',
-    hours: '평일 10:00 - 19:00 / 주말 11:00 - 18:00',
-  },
+const VISIT_CHECKS = [
+  { title: '전시 모델', description: '방문하려는 매장에 원하는 모델과 색상이 전시되어 있는지 확인하세요.' },
+  { title: '영업시간과 예약', description: '방문일의 운영시간과 착좌 체험에 예약이 필요한지 확인하세요.' },
+  { title: '책상과 함께 사용하기', description: '좌판 높이와 팔걸이를 조절해보고, 평소 사용하는 책상 높이와도 비교해보세요.' },
 ]
 
 export default function Support() {
   const [faqCategory, setFaqCategory] = useState('all')
   const [openFaq, setOpenFaq] = useState(null)
-  const [asForm, setAsForm] = useState({ name: '', phone: '', email: '', product: '', purchaseDate: '', issue: '' })
+  const [asForm, setAsForm] = useState({ product: '', purchaseDate: '', issue: '' })
+  const [preview, setPreview] = useState(null)
+  const filteredFaqs = faqCategory === 'all' ? FAQ_ITEMS : FAQ_ITEMS.filter(item => item.category === faqCategory)
 
-  const filteredFaqs = faqCategory === 'all'
-    ? FAQ_ITEMS
-    : FAQ_ITEMS.filter(f => f.category === faqCategory)
-
-  function toggleFaq(id) {
-    setOpenFaq(prev => prev === id ? null : id)
+  function updateField(field, value) {
+    setAsForm(form => ({ ...form, [field]: value }))
+    setPreview(null)
   }
 
-  function handleAsSubmit(e) {
-    e.preventDefault()
-    alert('A/S 신청이 접수되었습니다. 담당자가 확인 후 연락드리겠습니다.')
+  function handleAsSubmit(event) {
+    event.preventDefault()
+    setPreview({ ...asForm })
   }
 
   return (
     <>
-      {/* 히어로 */}
       <section className="support-hero">
         <div className="container">
-          <p className="eyebrow support-hero__eyebrow">Support Center</p>
-          <h1 className="support-hero__title">고객지원</h1>
-          <p className="support-hero__subtitle">궁금하신 사항이 있으신가요? 언제든지 도와드리겠습니다.</p>
+          <h1 className="support-hero__title">구매 전 확인</h1>
+          <p className="support-hero__subtitle">배송·반품·A/S를 판매처에 확인할 항목과 매장 방문 체크리스트를 모았습니다.</p>
         </div>
       </section>
-
-      {/* 퀵 링크 */}
       <section className="quick-links">
         <div className="container">
-          <div className="quick-links__grid">
-            {[
-              { href: '#faq', title: 'FAQ', desc: '자주 묻는 질문', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> },
-              { href: '#as', title: 'A/S 신청', desc: '제품 수리 접수', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> },
-              { href: '#stores', title: '매장 안내', desc: '전국 매장 정보', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> },
-              { href: '#contact', title: '1:1 문의', desc: '개별 상담 신청', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> },
-            ].map(({ href, title, desc, icon }, i) => (
-              <Link key={href} to={`/support${href}`} className="quick-link-card" data-index={`0${i + 1}`}>
-                <div className="quick-link-card__icon">{icon}</div>
-                <h3 className="quick-link-card__title">{title}</h3>
-                <p className="quick-link-card__description">{desc}</p>
-              </Link>
-            ))}
-          </div>
+          <div className="quick-links__grid">{[
+            { href: '#faq', title: '자주 묻는 질문', desc: '배송·보증·상품 정보' },
+            { href: '#as', title: 'A/S 입력 체험', desc: '증상 입력 화면' },
+            { href: '#stores', title: '매장 방문 전 확인', desc: '전시 모델·운영시간' },
+            { href: '#project', title: '프로젝트 안내', desc: '데모 범위와 저장 정보' },
+          ].map(({ href, title, desc }, index) => (
+            <Link key={href} to={'/support' + href} className="quick-link-card" data-index={'0' + (index + 1)}>
+              <h2 className="quick-link-card__title">{title}</h2>
+              <p className="quick-link-card__description">{desc}</p>
+            </Link>
+          ))}</div>
         </div>
       </section>
-
-      {/* 연락처 */}
-      <section className="contact-info" id="contact">
-        <div className="container">
-          <div className="contact-info__grid">
-            {[
-              { title: '고객센터', detail: '1588-1234', time: '평일 09:00 - 18:00', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> },
-              { title: '이메일', detail: 'support@duoback.com', time: '24시간 접수 가능', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> },
-              { title: '카카오톡', detail: '@듀오백', time: '평일 09:00 - 18:00', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> },
-            ].map(({ title, detail, time, icon }) => (
-              <div key={title} className="contact-info__card">
-                <div className="contact-info__icon">{icon}</div>
-                <h3 className="contact-info__title">{title}</h3>
-                <p className="contact-info__detail">{detail}</p>
-                <p className="contact-info__time">{time}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
       <section className="faq-section" id="faq">
         <div className="container">
           <h2 className="section-title">자주 묻는 질문</h2>
-          <div className="faq-categories">
-            {FAQ_CATEGORIES.map(({ key, label }) => (
-              <button
-                key={key}
-                className={`faq-category-btn${faqCategory === key ? ' faq-category-btn--active' : ''}`}
-                onClick={() => { setFaqCategory(key); setOpenFaq(null) }}
-              >
-                {label}
+          <div className="faq-categories">{FAQ_CATEGORIES.map(({ key, label }) => (
+            <button key={key} type="button"
+              className={'faq-category-btn' + (faqCategory === key ? ' faq-category-btn--active' : '')}
+              aria-pressed={faqCategory === key}
+              onClick={() => { setFaqCategory(key); setOpenFaq(null) }}>{label}</button>
+          ))}</div>
+          <div className="faq-list">{filteredFaqs.map(({ id, question, answer }) => (
+            <div key={id} className={'faq-item' + (openFaq === id ? ' is-open' : '')}>
+              <button type="button" className="faq-item__question" aria-expanded={openFaq === id}
+                aria-controls={'faq-' + id} onClick={() => setOpenFaq(current => current === id ? null : id)}>
+                <span>{question}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
               </button>
-            ))}
-          </div>
-          <div className="faq-list">
-            {filteredFaqs.map(({ id, question, answer }) => (
-              <div key={id} className={`faq-item${openFaq === id ? ' is-open' : ''}`}>
-                <button
-                  className="faq-item__question"
-                  aria-expanded={openFaq === id}
-                  onClick={() => toggleFaq(id)}
-                >
-                  <span>{question}</span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </button>
-                <div className="faq-item__answer" aria-hidden={openFaq !== id}>
-                  <p>{answer}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+              <div id={'faq-' + id} className="faq-item__answer" hidden={openFaq !== id}><p>{answer}</p></div>
+            </div>
+          ))}</div>
         </div>
       </section>
-
-      {/* A/S 신청 */}
       <section className="as-section" id="as">
         <div className="container">
-          <h2 className="section-title">A/S 신청</h2>
-          <p className="section-subtitle">제품에 문제가 있으신가요? A/S를 신청해주세요.</p>
-          <form className="support-form" onSubmit={handleAsSubmit}>
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="asName" className="form-label">이름 <span className="required">*</span></label>
-                <input type="text" id="asName" className="form-input" autoComplete="name" required
-                  value={asForm.name} onChange={e => setAsForm(f => ({ ...f, name: e.target.value }))} />
-              </div>
-              <div className="form-group">
-                <label htmlFor="asPhone" className="form-label">연락처 <span className="required">*</span></label>
-                <input type="tel" id="asPhone" className="form-input" placeholder="010-1234-5678" autoComplete="tel" required
-                  value={asForm.phone} onChange={e => setAsForm(f => ({ ...f, phone: e.target.value }))} />
-              </div>
-            </div>
-            <div className="form-group">
-              <label htmlFor="asEmail" className="form-label">이메일 <span className="required">*</span></label>
-              <input type="email" id="asEmail" className="form-input" placeholder="example@email.com" autoComplete="email" required
-                value={asForm.email} onChange={e => setAsForm(f => ({ ...f, email: e.target.value }))} />
-            </div>
+          <h2 className="section-title">A/S 입력 체험</h2>
+          <form className="support-form" onSubmit={handleAsSubmit} aria-describedby="asDemoNotice">
+            <p id="asDemoNotice" className="content-note">입력 화면만 체험할 수 있습니다. 입력한 내용은 전송하거나 저장하지 않습니다.</p>
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="asProduct" className="form-label">제품명 <span className="required">*</span></label>
-                <select id="asProduct" className="form-select" required
-                  value={asForm.product} onChange={e => setAsForm(f => ({ ...f, product: e.target.value }))}>
+                <select id="asProduct" className="form-select" required value={asForm.product}
+                  onChange={event => updateField('product', event.target.value)}>
                   <option value="">제품 선택</option>
-                  {PRODUCTS.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                  {PRODUCTS.map(product => <option key={product.id} value={product.id}>{product.name}</option>)}
                 </select>
               </div>
               <div className="form-group">
                 <label htmlFor="asPurchaseDate" className="form-label">구매일 <span className="required">*</span></label>
-                <input type="date" id="asPurchaseDate" className="form-input" required
-                  value={asForm.purchaseDate} onChange={e => setAsForm(f => ({ ...f, purchaseDate: e.target.value }))} />
+                <input type="date" id="asPurchaseDate" className="form-input" required value={asForm.purchaseDate}
+                  onChange={event => updateField('purchaseDate', event.target.value)} />
               </div>
             </div>
             <div className="form-group">
               <label htmlFor="asIssue" className="form-label">증상 <span className="required">*</span></label>
-              <textarea id="asIssue" className="form-textarea" rows="5" placeholder="증상을 상세히 적어주세요" required
-                value={asForm.issue} onChange={e => setAsForm(f => ({ ...f, issue: e.target.value }))} />
+              <textarea id="asIssue" className="form-textarea" rows="5" placeholder="예: 높이를 조절할 때 소리가 납니다." required
+                value={asForm.issue} onChange={event => updateField('issue', event.target.value)} />
             </div>
-            <button type="submit" className="btn btn--primary btn--large">A/S 신청하기</button>
+            <button type="submit" className="btn btn--primary btn--large">입력 내용 확인하기</button>
+            {preview && (
+              <section className="form-preview" aria-labelledby="asPreviewTitle">
+                <h3 id="asPreviewTitle">입력한 내용</h3>
+                <p role="status">체험 화면이라 A/S 신청은 접수되지 않았습니다.</p>
+                <dl className="preview-details">
+                  <div><dt>제품</dt><dd>{PRODUCTS.find(product => product.id === preview.product)?.name}</dd></div>
+                  <div><dt>구매일</dt><dd>{preview.purchaseDate}</dd></div>
+                  <div><dt>증상</dt><dd>{preview.issue}</dd></div>
+                </dl>
+              </section>
+            )}
           </form>
         </div>
       </section>
-
-      {/* 매장 안내 */}
       <section className="stores-section" id="stores">
         <div className="container">
-          <h2 className="section-title">매장 안내</h2>
-          <p className="section-subtitle">전국 듀오백 매장에서 제품을 직접 체험해보세요.</p>
-          <div className="stores-grid">
-            {STORES.map(({ name, address, phone, hours }) => (
-              <div key={name} className="store-card">
-                <h3 className="store-card__name">{name}</h3>
-                <div className="store-card__info">
-                  <div className="store-card__row">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-                    </svg>
-                    <span>{address}</span>
-                  </div>
-                  <div className="store-card__row">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                    </svg>
-                    <span>{phone}</span>
-                  </div>
-                  <div className="store-card__row">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                    <span>{hours}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <h2 className="section-title">매장 방문 전 확인</h2>
+          <p className="section-subtitle">매장에 가기 전에 확인할 내용입니다.</p>
+          <div className="stores-grid">{VISIT_CHECKS.map(item => (
+            <div key={item.title} className="store-card"><h3 className="store-card__name">{item.title}</h3><p>{item.description}</p></div>
+          ))}</div>
+        </div>
+      </section>
+      <section className="project-info" id="contact">
+        <div className="container">
+          <div id="project">
+            <h2 className="section-title">프로젝트와 데이터 안내</h2>
+            <p>듀오백을 소재로 제작한 독립 포트폴리오입니다. 공식 판매 사이트나 고객센터가 아닙니다.</p>
+            <p>제품 사진 탐색, 카테고리·예산 필터, 모델 비교, 참고 이미지 색상 선택, 장바구니와 주문 내용 확인을 체험할 수 있습니다. 실제 결제, 주문 전송, A/S 접수는 진행되지 않습니다.</p>
+          </div>
+          <div id="storage">
+            <h3>입력·저장 정보</h3>
+            <p>장바구니의 상품, 참고 이미지 색상, 수량은 현재 브라우저에 저장됩니다. 비교 목록은 현재 탭의 세션에 저장됩니다. A/S 입력 체험의 내용은 서버로 전송하거나 브라우저 저장소에 보관하지 않으며, 이 화면을 떠나면 사라집니다.</p>
+            <p>장바구니의 삭제 버튼이나 브라우저의 사이트 데이터 삭제 기능으로 저장된 장바구니를 지울 수 있습니다.</p>
           </div>
         </div>
       </section>

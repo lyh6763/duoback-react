@@ -1,41 +1,48 @@
 import { useState, useEffect } from 'react'
 import { CartContext } from './cart-context'
+import { normalizeCartItem, normalizeQuantity } from '../utils/normalizeCartItem'
 
 const CART_STORAGE_KEY = 'duoback_cart'
-const MAX_CART_QUANTITY = 99
 
-function normalizeQuantity(value) {
-  const quantity = Number.parseInt(value, 10)
-  if (!Number.isFinite(quantity)) return 1
-  return Math.min(MAX_CART_QUANTITY, Math.max(1, quantity))
-}
+function readInitialCart() {
+  try {
+    const saved = localStorage.getItem(CART_STORAGE_KEY)
+    if (!saved) return { items: [], storageUnavailable: false }
 
-function normalizeCartItem(item) {
-  return {
-    ...item,
-    quantity: normalizeQuantity(item.quantity),
-    price:
-      typeof item.price === 'number'
-        ? item.price
-        : parseInt(String(item.price).replace(/[^0-9]/g, ''), 10) || 0,
+    const parsed = JSON.parse(saved)
+    return {
+      items: Array.isArray(parsed) ? parsed.map(normalizeCartItem).filter(Boolean) : [],
+      storageUnavailable: false,
+    }
+  } catch {
+    return { items: [], storageUnavailable: true }
   }
 }
 
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState(() => {
-    try {
-      const saved = localStorage.getItem(CART_STORAGE_KEY)
-      if (!saved) return []
+  const initial = readInitialCart()
+  const [cartItems, setCartItems] = useState(initial.items)
+  const [storageUnavailable, setStorageUnavailable] = useState(initial.storageUnavailable)
 
-      const parsed = JSON.parse(saved)
-      return Array.isArray(parsed) ? parsed.map(normalizeCartItem) : []
-    } catch {
-      return []
-    }
-  })
+  function persistCart(updater) {
+    setCartItems(prev => {
+      const next = typeof updater === 'function' ? updater(prev) : updater
+      try {
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(next))
+        setStorageUnavailable(false)
+      } catch {
+        setStorageUnavailable(true)
+      }
+      return next
+    })
+  }
 
   useEffect(() => {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems))
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems))
+    } catch {
+      /* Storage unavailability is tracked on read/update actions. */
+    }
   }, [cartItems])
 
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0)
@@ -44,8 +51,10 @@ export function CartProvider({ children }) {
     return total + item.price * item.quantity
   }, 0)
 
-  function addToCart(product) {
-    setCartItems(prev => {
+  function addToCart(payload) {
+    const product = normalizeCartItem(payload)
+    if (!product) return
+    persistCart(prev => {
       const existingIndex = prev.findIndex(
         item => item.id === product.id && item.selectedColor === product.selectedColor
       )
@@ -65,7 +74,7 @@ export function CartProvider({ children }) {
   }
 
   function removeFromCart(productId, selectedColor) {
-    setCartItems(prev =>
+    persistCart(prev =>
       prev.filter(item => !(item.id === productId && item.selectedColor === selectedColor))
     )
   }
@@ -75,7 +84,7 @@ export function CartProvider({ children }) {
       removeFromCart(productId, selectedColor)
       return
     }
-    setCartItems(prev =>
+    persistCart(prev =>
       prev.map(item =>
         item.id === productId && item.selectedColor === selectedColor
           ? { ...item, quantity: normalizeQuantity(quantity) }
@@ -85,11 +94,11 @@ export function CartProvider({ children }) {
   }
 
   function clearCart() {
-    setCartItems([])
+    persistCart([])
   }
 
   return (
-    <CartContext.Provider value={{ cartItems, cartCount, cartTotal, addToCart, removeFromCart, updateQuantity, clearCart }}>
+    <CartContext.Provider value={{ cartItems, cartCount, cartTotal, addToCart, removeFromCart, updateQuantity, clearCart, storageUnavailable }}>
       {children}
     </CartContext.Provider>
   )

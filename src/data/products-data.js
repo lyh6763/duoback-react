@@ -1,188 +1,313 @@
-/**
- * ========================================
- * Product Data (Single Source of Truth)
- * ========================================
- *
- * 이미지 규칙: images/products/{id}-{colorSlug}-{angle}.jpg
- * angle ∈ front · left · right · rear
- * 각 색상의 4각도(colorViews)에서 대표 이미지(images)와
- * 색상별 썸네일(colorImages)을 파생한다.
- */
-
+// Official price/specification snapshot checked on 2026-10-14.
+// null means unverified, never zero or an inferred safety limit.
+// Existing local gallery assets remain labelled as prototype reference images.
 const ANGLES = ['front', 'left', 'right', 'rear']
-
-const viewSet = (id, slug) =>
-  ANGLES.map(angle => `images/products/${id}-${slug}-${angle}.jpg`)
-
 function withImages(product) {
   const colorViews = {}
   const colorImages = {}
-
   for (const color of product.colors) {
-    const views = viewSet(product.id, color.slug)
+    const views = ANGLES.map(angle => 'images/products/' + product.id + '-' + color.slug + '-' + angle + '.jpg')
     colorViews[color.name] = views
     colorImages[color.name] = views[0]
   }
-
-  return {
-    ...product,
-    images: colorViews[product.colors[0].name],
-    colorViews,
-    colorImages,
-  }
+  return { ...product, images: colorViews[product.colors[0].name], colorViews, colorImages }
 }
 
 const PRODUCTS = [
   {
-    id: 'q1w',
-    name: 'Q1W 메쉬',
-    category: '사무용 의자',
-    price: 890000,
-    originalPrice: 1200000,
-    colors: [
-      { name: '블랙', color: '#000000', slug: 'black' },
-      { name: '그레이', color: '#9E9E9E', slug: 'gray' },
+    "id": "q1w",
+    "name": "Q1W 메쉬",
+    "category": "사무용 의자",
+    "price": 198000,
+    "priceBasis": "스펀지 헤드레스트 기준",
+    "colors": [
+      {
+        "name": "블랙",
+        "color": "#000000",
+        "slug": "black"
+      },
+      {
+        "name": "그레이",
+        "color": "#9E9E9E",
+        "slug": "gray"
+      }
     ],
-    specs: {
-      name: 'Q1W 메쉬',
-      category: '사무용 의자',
-      size: '670 x 670 x 1200~1300mm',
-      seatHeight: '450~550mm',
-      backHeight: '700mm',
-      armrest: '4D 조절 가능',
-      material: '프리미엄 에어 메쉬, 알루미늄 베이스',
-      colors: '블랙, 그레이',
-      maxWeight: '120kg',
-      origin: '대한민국',
-      warranty: '3년',
-      kc: 'KC-AB-1234-5678'
+    "specs": {
+      "name": "Q1W 메쉬",
+      "category": "사무용 의자",
+      "size": "665 × 542 × 1150–1210mm",
+      "seatHeight": "420–480mm",
+      "weight": "13.7kg",
+      "armrest": "고정형",
+      "material": "더블라셀 메쉬",
+      "colors": "블랙, 블루",
+      "maxWeight": null,
+      "origin": null
     },
-    keywords: ['Q1W', '메쉬', '사무용', '오피스', '인체공학'],
-    summary: '정밀한 서포트와 통기성을 갖춘 프리미엄 오피스 체어.',
-    highlights: ['4D 팔걸이', '에어 메쉬', '알루미늄 베이스'],
-    popularScore: 92,
-    reviewCount: 148,
-    releaseDate: '2024-10-18'
+    "source": {
+      "url": "https://duoback.co.kr/product/detail.html?product_no=13177",
+      "checkedAt": "2026-10-14",
+      "sizeUrl": "https://duoback2025.openhost.cafe24.com/web/product/renewal/PDP/Q1/q1w/08_01_0.jpg",
+      "featureUrl": "https://duoback2025.openhost.cafe24.com/web/product/renewal/PDP/Q1/q1w/04_01_0.jpg",
+      "priceBasis": "스펀지 헤드레스트 기준",
+      "fieldUrls": {
+        "size": "https://duoback2025.openhost.cafe24.com/web/product/renewal/PDP/Q1/q1w/08_01_0.jpg",
+        "seatHeight": "https://duoback2025.openhost.cafe24.com/web/product/renewal/PDP/Q1/q1w/08_01_0.jpg",
+        "weight": "https://duoback2025.openhost.cafe24.com/web/product/renewal/PDP/Q1/q1w/08_01_0.jpg",
+        "armrest": "https://duoback2025.openhost.cafe24.com/web/product/renewal/PDP/Q1/q1w/04_01_0.jpg",
+        "colors": "https://duoback.co.kr/product/detail.html?product_no=13177",
+        "material": "https://duoback2025.openhost.cafe24.com/web/product/renewal/PDP/Q1/q1w/04_01_0.jpg"
+      }
+    },
+    "keywords": [
+      "Q1W",
+      "메쉬",
+      "사무용",
+      "오피스"
+    ],
+    "summary": "팔걸이 고정형 · 좌판 높이 420–480mm",
+    "highlights": [
+      "팔걸이 고정형",
+      "좌판 420–480mm"
+    ],
+    "galleryNotice": "갤러리는 포트폴리오 참고 이미지입니다. 공식 판매 색상·형태는 원문에서 확인하세요."
   },
   {
-    id: 'dk073w',
-    name: 'DK-073W',
-    category: '학생용 의자',
-    price: 650000,
-    colors: [
-      { name: '블랙', color: '#000000', slug: 'black' },
-      { name: '블루', color: '#2196F3', slug: 'blue' },
+    "id": "dk073w",
+    "name": "DK-073W",
+    "category": "학생용 의자",
+    "price": 158000,
+    "priceBasis": "기본 상품 기준",
+    "colors": [
+      {
+        "name": "블랙",
+        "color": "#000000",
+        "slug": "black"
+      },
+      {
+        "name": "블루",
+        "color": "#2196F3",
+        "slug": "blue"
+      }
     ],
-    specs: {
-      name: 'DK-073W',
-      category: '학생용 의자',
-      size: '670 x 670 x 1150~1250mm',
-      seatHeight: '450~550mm',
-      backHeight: '650mm',
-      armrest: '4D 조절 가능',
-      material: '프리미엄 에어 메쉬, 나일론 베이스',
-      colors: '블랙, 블루',
-      maxWeight: '120kg',
-      origin: '대한민국',
-      warranty: '3년',
-      kc: 'KC-AB-1234-5678'
+    "specs": {
+      "name": "DK-073W",
+      "category": "학생용 의자",
+      "size": "560 × 610 × 902mm",
+      "seatHeight": "412mm (고정)",
+      "weight": "9.5kg",
+      "armrest": "고정형",
+      "material": null,
+      "colors": "그레이, 그린, 블루, 레드",
+      "maxWeight": null,
+      "origin": null
     },
-    keywords: ['DK-073W', 'DK073W', '학생용', '학생', '공부', '책상'],
-    summary: '집중 학습을 위한 균형 설계와 부드러운 착좌감.',
-    highlights: ['4D 팔걸이', '에어 메쉬', '학생용 설계'],
-    popularScore: 85,
-    reviewCount: 96,
-    releaseDate: '2024-07-05'
+    "source": {
+      "url": "https://duoback.co.kr/product/detail.html?product_no=13234",
+      "checkedAt": "2026-10-14",
+      "sizeUrl": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/STUDY/dk073/dk073w/07_01.jpg",
+      "featureUrl": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/STUDY/dk073/dk073w/04_01.jpg",
+      "priceBasis": "기본 상품 기준",
+      "fieldUrls": {
+        "size": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/STUDY/dk073/dk073w/07_01.jpg",
+        "seatHeight": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/STUDY/dk073/dk073w/07_01.jpg",
+        "weight": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/STUDY/dk073/dk073w/07_01.jpg",
+        "armrest": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/STUDY/dk073/dk073w/04_01.jpg",
+        "colors": "https://duoback.co.kr/product/detail.html?product_no=13234",
+        "material": null
+      }
+    },
+    "keywords": [
+      "DK-073W",
+      "DK073W",
+      "학생용",
+      "학생",
+      "공부",
+      "책상"
+    ],
+    "summary": "팔걸이 고정형 · 좌판 높이 412mm (고정)",
+    "highlights": [
+      "팔걸이 고정형",
+      "좌판 412mm (고정)"
+    ],
+    "galleryNotice": "갤러리는 포트폴리오 참고 이미지입니다. 공식 판매 색상·형태는 원문에서 확인하세요."
   },
   {
-    id: 'd3hs',
-    name: 'D3-HS 메쉬',
-    category: '사무용 의자',
-    price: 780000,
-    colors: [
-      { name: '블랙', color: '#000000', slug: 'black' },
-      { name: '화이트', color: '#FFFFFF', slug: 'white' },
+    "id": "d3hs",
+    "name": "D3-HS 메쉬",
+    "category": "사무용 의자",
+    "price": 472000,
+    "priceBasis": "일반 베이스·택배 기준",
+    "colors": [
+      {
+        "name": "블랙",
+        "color": "#000000",
+        "slug": "black"
+      },
+      {
+        "name": "화이트",
+        "color": "#FFFFFF",
+        "slug": "white"
+      }
     ],
-    specs: {
-      name: 'D3-HS 메쉬',
-      category: '사무용 의자',
-      size: '680 x 680 x 1180~1280mm',
-      seatHeight: '460~560mm',
-      backHeight: '680mm',
-      armrest: '3D 조절 가능',
-      material: '프리미엄 메쉬, 나일론 베이스',
-      colors: '블랙, 화이트',
-      maxWeight: '120kg',
-      origin: '대한민국',
-      warranty: '3년',
-      kc: 'KC-AB-1234-5679'
+    "specs": {
+      "name": "D3-HS 메쉬",
+      "category": "사무용 의자",
+      "size": "712 × 618 × 1172–1262mm",
+      "seatHeight": "440–530mm",
+      "weight": "16.6kg",
+      "armrest": "조절형",
+      "material": "메쉬 (공식 상품명 기준)",
+      "colors": "블랙, 그레이, 레드, 피콕 블루",
+      "maxWeight": null,
+      "origin": null
     },
-    keywords: ['D3-HS', 'D3HS', '메쉬', '사무용', '오피스'],
-    summary: '유연한 3D 팔걸이로 다양한 자세에 대응하는 베스트셀러.',
-    highlights: ['3D 팔걸이', '프리미엄 메쉬', '화이트 옵션'],
-    popularScore: 88,
-    reviewCount: 112,
-    releaseDate: '2024-09-02'
+    "source": {
+      "url": "https://duoback.co.kr/product/detail.html?product_no=12832",
+      "checkedAt": "2026-10-14",
+      "sizeUrl": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/PD3/d3_hs/08_01.jpg",
+      "featureUrl": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/PD3/d3_hs/04_01.jpg",
+      "priceBasis": "일반 베이스·택배 기준",
+      "fieldUrls": {
+        "size": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/PD3/d3_hs/08_01.jpg",
+        "seatHeight": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/PD3/d3_hs/08_01.jpg",
+        "weight": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/PD3/d3_hs/08_01.jpg",
+        "armrest": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/PD3/d3_hs/04_01.jpg",
+        "colors": "https://duoback.co.kr/product/detail.html?product_no=12832",
+        "material": "https://duoback.co.kr/product/detail.html?product_no=12832"
+      }
+    },
+    "keywords": [
+      "D3-HS",
+      "D3HS",
+      "메쉬",
+      "사무용",
+      "오피스"
+    ],
+    "summary": "팔걸이 조절형 · 좌판 높이 440–530mm",
+    "highlights": [
+      "팔걸이 조절형",
+      "좌판 440–530mm"
+    ],
+    "galleryNotice": "갤러리는 포트폴리오 참고 이미지입니다. 공식 판매 색상·형태는 원문에서 확인하세요."
   },
   {
-    id: 'd043w',
-    name: 'D-043W PLUS',
-    category: '학생용 의자',
-    price: 520000,
-    colors: [
-      { name: '블랙', color: '#000000', slug: 'black' },
-      { name: '블루', color: '#2196F3', slug: 'blue' },
+    "id": "d043w",
+    "name": "D-043W PLUS",
+    "category": "학생용 의자",
+    "price": 145000,
+    "priceBasis": "기본 상품 기준",
+    "colors": [
+      {
+        "name": "블랙",
+        "color": "#000000",
+        "slug": "black"
+      },
+      {
+        "name": "블루",
+        "color": "#2196F3",
+        "slug": "blue"
+      }
     ],
-    specs: {
-      name: 'D-043W PLUS',
-      category: '학생용 의자',
-      size: '650 x 650 x 1100~1200mm',
-      seatHeight: '430~530mm',
-      backHeight: '620mm',
-      armrest: '고정형',
-      material: '메쉬, 나일론 베이스',
-      colors: '블랙, 블루',
-      maxWeight: '100kg',
-      origin: '대한민국',
-      warranty: '3년',
-      kc: 'KC-AB-1234-5680'
+    "specs": {
+      "name": "D-043W PLUS",
+      "category": "학생용 의자",
+      "size": "540 × 538 × 812mm",
+      "seatHeight": "460mm (고정)",
+      "weight": "8.4kg",
+      "armrest": "없음 (공식 도면 기준)",
+      "material": null,
+      "colors": "마린블루, 카라멜브라운, 버블그레이",
+      "maxWeight": null,
+      "origin": null
     },
-    keywords: ['D-043W', 'D043W', 'PLUS', '플러스', '학생용', '학생'],
-    summary: '합리적인 구성과 심플한 라인으로 구성한 학습용 모델.',
-    highlights: ['고정형 팔걸이', '경량 베이스', '학생용'],
-    popularScore: 79,
-    reviewCount: 64,
-    releaseDate: '2023-12-12'
+    "source": {
+      "url": "https://duoback.co.kr/product/detail.html?product_no=13239",
+      "checkedAt": "2026-10-14",
+      "sizeUrl": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/platform/dkplatform/dk043w_plus/dk043w_plus_02.jpg",
+      "featureUrl": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/platform/dkplatform/dk043w_plus/dk043w_plus_02.jpg",
+      "priceBasis": "기본 상품 기준",
+      "fieldUrls": {
+        "size": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/platform/dkplatform/dk043w_plus/dk043w_plus_02.jpg",
+        "seatHeight": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/platform/dkplatform/dk043w_plus/dk043w_plus_02.jpg",
+        "weight": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/platform/dkplatform/dk043w_plus/dk043w_plus_02.jpg",
+        "armrest": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/platform/dkplatform/dk043w_plus/dk043w_plus_02.jpg",
+        "colors": "https://duoback.co.kr/product/detail.html?product_no=13239",
+        "material": null
+      }
+    },
+    "keywords": [
+      "D-043W",
+      "D043W",
+      "PLUS",
+      "플러스",
+      "학생용",
+      "학생"
+    ],
+    "summary": "팔걸이 없음 (공식 도면 기준) · 좌판 높이 460mm (고정)",
+    "highlights": [
+      "팔걸이 없음",
+      "좌판 460mm (고정)"
+    ],
+    "galleryNotice": "갤러리는 포트폴리오 참고 이미지입니다. 공식 판매 색상·형태는 원문에서 확인하세요."
   },
   {
-    id: 'd2500g',
-    name: 'D2500G-DASW',
-    category: '사무용 의자',
-    price: 950000,
-    colors: [
-      { name: '블랙', color: '#000000', slug: 'black' },
-      { name: '그레이', color: '#9E9E9E', slug: 'gray' },
+    "id": "d2500g",
+    "name": "D2500G-DASW",
+    "category": "사무용 의자",
+    "price": 319000,
+    "priceBasis": "일반 베이스·택배 기준",
+    "colors": [
+      {
+        "name": "블랙",
+        "color": "#000000",
+        "slug": "black"
+      },
+      {
+        "name": "그레이",
+        "color": "#9E9E9E",
+        "slug": "gray"
+      }
     ],
-    specs: {
-      name: 'D2500G-DASW',
-      category: '사무용 의자',
-      size: '690 x 690 x 1220~1320mm',
-      seatHeight: '470~570mm',
-      backHeight: '720mm',
-      armrest: '4D 조절 가능',
-      material: '프리미엄 메쉬, 알루미늄 베이스',
-      colors: '블랙, 그레이',
-      maxWeight: '130kg',
-      origin: '대한민국',
-      warranty: '3년',
-      kc: 'KC-AB-1234-5681'
+    "specs": {
+      "name": "D2500G-DASW",
+      "category": "사무용 의자",
+      "size": "682 × 600 × 1145–1251mm",
+      "seatHeight": "414–520mm",
+      "weight": "18.2kg",
+      "armrest": "조절형",
+      "material": null,
+      "colors": "그레이, 블루그린",
+      "maxWeight": null,
+      "origin": null
     },
-    keywords: ['D2500G', 'DASW', '사무용', '오피스', '프리미엄'],
-    summary: '프리미엄 라인업에 걸맞은 소재와 밸런스를 갖춘 모델.',
-    highlights: ['4D 팔걸이', '알루미늄 베이스', '프리미엄 라인'],
-    popularScore: 95,
-    reviewCount: 178,
-    releaseDate: '2024-11-22'
+    "source": {
+      "url": "https://duoback.co.kr/product/detail.html?product_no=12767",
+      "checkedAt": "2026-10-14",
+      "sizeUrl": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/PDS/D2500G/d2500g_dasw/08_01.jpg",
+      "featureUrl": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/PDS/D2500G/d2500g_dasw/04_01.jpg",
+      "priceBasis": "일반 베이스·택배 기준",
+      "fieldUrls": {
+        "size": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/PDS/D2500G/d2500g_dasw/08_01.jpg",
+        "seatHeight": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/PDS/D2500G/d2500g_dasw/08_01.jpg",
+        "weight": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/PDS/D2500G/d2500g_dasw/08_01.jpg",
+        "armrest": "https://ecimg.cafe24img.com/pg2137b07932786048/duoback2025/web/product/renewal/PDS/D2500G/d2500g_dasw/04_01.jpg",
+        "colors": "https://duoback.co.kr/product/detail.html?product_no=12767",
+        "material": null
+      }
+    },
+    "keywords": [
+      "D2500G",
+      "DASW",
+      "사무용",
+      "오피스"
+    ],
+    "summary": "팔걸이 조절형 · 좌판 높이 414–520mm",
+    "highlights": [
+      "팔걸이 조절형",
+      "좌판 414–520mm"
+    ],
+    "galleryNotice": "갤러리는 포트폴리오 참고 이미지입니다. 공식 판매 색상·형태는 원문에서 확인하세요."
   }
 ].map(withImages)
 

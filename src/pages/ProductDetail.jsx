@@ -27,7 +27,8 @@ function ProductDetailContent({ product }) {
               images={views}
               mainImage={mainImage}
               onImageSelect={setMainImage}
-              tag={`${product.name} · ${product.category}`}
+              tag={product.id.toUpperCase()}
+              productName={product.name}
             />
             <ProductInfo
               product={product}
@@ -36,6 +37,7 @@ function ProductDetailContent({ product }) {
             />
           </div>
         </div>
+        <div className="container"><p className="gallery-notice">{product.galleryNotice}</p></div>
       </section>
 
       {/* 탭 섹션 */}

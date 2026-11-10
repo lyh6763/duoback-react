@@ -4,9 +4,13 @@ import PRODUCTS from '../data/products-data'
 import { assetPath } from '../utils/assetPath'
 import { formatPrice } from '../utils/formatPrice'
 
+const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+
 export default function SearchModal({ isOpen, onClose }) {
   const [query, setQuery] = useState('')
   const inputRef = useRef(null)
+  const containerRef = useRef(null)
+  const lastFocusedRef = useRef(null)
 
   const handleClose = useCallback(() => {
     setQuery('')
@@ -23,15 +27,20 @@ export default function SearchModal({ isOpen, onClose }) {
       })
     : []
 
-  // 모달 열릴 때 input 포커스
+  // 모달 열릴 때 input 포커스 및 닫힐 때 원래 버튼으로 포커스 복귀
   useEffect(() => {
     let focusTimeout
 
     if (isOpen) {
+      lastFocusedRef.current = document.activeElement
       focusTimeout = setTimeout(() => inputRef.current?.focus(), 50)
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
+      if (lastFocusedRef.current && typeof lastFocusedRef.current.focus === 'function') {
+        lastFocusedRef.current.focus()
+        lastFocusedRef.current = null
+      }
     }
     return () => {
       clearTimeout(focusTimeout)
@@ -39,10 +48,29 @@ export default function SearchModal({ isOpen, onClose }) {
     }
   }, [isOpen])
 
-  // ESC 키로 닫기
+  // ESC 키로 닫기 및 Tab 포커스 트랩
   useEffect(() => {
     function handleKeyDown(e) {
-      if (e.key === 'Escape') handleClose()
+      if (e.key === 'Escape') {
+        handleClose()
+        return
+      }
+      if (e.key === 'Tab' && containerRef.current) {
+        const focusables = Array.from(containerRef.current.querySelectorAll(FOCUSABLE_SELECTOR))
+        if (!focusables.length) return
+        const first = focusables[0]
+        const last = focusables[focusables.length - 1]
+        if (!containerRef.current.contains(document.activeElement)) {
+          e.preventDefault()
+          ;(e.shiftKey ? last : first).focus()
+        } else if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
     }
     if (isOpen) document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
@@ -51,9 +79,9 @@ export default function SearchModal({ isOpen, onClose }) {
   if (!isOpen) return null
 
   return (
-    <div className="search-modal is-open" role="dialog" aria-modal="true" aria-labelledby="searchModalTitle" aria-hidden="false">
+    <div className="search-modal is-open" role="dialog" aria-modal="true" aria-labelledby="searchModalTitle">
       <div className="search-modal__overlay" onClick={handleClose} />
-      <div className="search-modal__container">
+      <div className="search-modal__container" ref={containerRef}>
         <div className="search-modal__header">
           <h2 id="searchModalTitle" className="visually-hidden">제품 검색</h2>
           <div className="search-modal__input-wrapper">

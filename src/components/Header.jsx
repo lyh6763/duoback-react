@@ -3,9 +3,12 @@ import { Link, NavLink } from 'react-router-dom'
 import { useCart } from '../context/cart-context'
 import MobileMenu from './MobileMenu'
 import SearchModal from './SearchModal'
+import { useCompare } from '../context/compare-context'
+import { compareUrl } from '../utils/productDiscovery'
 
 export default function Header() {
   const { cartCount } = useCart()
+  const { ids } = useCompare()
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
@@ -18,9 +21,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  function handleLoginClick() {
-    alert('로그인 기능은 준비 중입니다.')
-  }
 
   return (
     <>
@@ -33,8 +33,9 @@ export default function Header() {
             {/* Navigation */}
             <nav className="header__nav">
               <NavLink to="/products" className="header__nav-link">제품</NavLink>
-              <NavLink to="/brand" className="header__nav-link">브랜드</NavLink>
-              <NavLink to="/support" className="header__nav-link">고객지원</NavLink>
+              <NavLink to={compareUrl(ids)} className="header__nav-link">모델 비교</NavLink>
+              <NavLink to="/brand" className="header__nav-link">선택 가이드</NavLink>
+              <NavLink to="/support" className="header__nav-link">구매 전 확인</NavLink>
             </nav>
 
             {/* Actions */}
@@ -65,18 +66,6 @@ export default function Header() {
                 )}
               </Link>
 
-              {/* 로그인 */}
-              <button
-                type="button"
-                className="header__action-btn"
-                aria-label="로그인"
-                onClick={handleLoginClick}
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
-              </button>
             </div>
 
             {/* Mobile Menu Button */}

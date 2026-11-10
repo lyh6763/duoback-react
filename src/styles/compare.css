@@ -1,0 +1,70 @@
+.catalog-note, .catalog-result, .compare-hint { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 16px; }
+.catalog-result { color: var(--color-text-primary); }
+.compare-hint--scroll { display: none; }
+.budget-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding-top: 12px; }
+.budget-filter label { font-size: 14px; }
+.budget-filter input { width: 160px; min-height: 40px; padding: 8px 12px; background: white; border: 1px solid var(--color-border); border-radius: 4px; }
+.budget-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.budget-presets button { font-size: 12px; padding: 8px 10px; border: 1px solid var(--color-border); border-radius: 4px; }
+.budget-presets button[aria-pressed="true"] { background: var(--color-accent); border-color: var(--color-accent); color: white; }
+.product-card__facts { margin: 8px 0; font-size: 13px; color: var(--color-text-secondary); }
+.product-card__facts span { display: block; }
+.compare-button { display: flex; justify-content: center; align-items: center; gap: 6px; padding: 10px 14px; min-height: 44px; border: 1px solid var(--color-border); border-radius: 4px; background: var(--color-bg-white); font-size: 14px; }
+.product-card__info > .compare-button { width: 100%; margin-top: 12px; }
+.compare-button:hover, .compare-button.is-selected { border-color: var(--color-accent); color: var(--color-accent-dark); background: var(--color-bg-secondary); }
+.product-details > .compare-button { width: 100%; margin: 16px 0; }
+.product-sources { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 16px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+.product-sources a, .compare-table a { color: var(--color-accent-dark); text-decoration: underline; text-underline-offset: 3px; }
+.product-details__price { flex-wrap: wrap; }
+.price-basis { flex-basis: 100%; font-size: 13px; color: var(--color-text-secondary); }
+.specs-note { margin-top: 12px; font-size: 13px; color: var(--color-text-secondary); }
+.gallery-notice { font-size: 12px; line-height: 1.5; color: var(--color-text-secondary); margin-top: 12px; }
+.compare-page { padding: 32px 0 64px; }
+.compare-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.compare-heading h1 { font-family: var(--font-primary); font-size: 32px; margin-bottom: 8px; }
+.compare-heading p { color: var(--color-text-secondary); }
+.compare-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; }
+.compare-controls label { display: flex; align-items: center; gap: 8px; }
+.compare-controls input { accent-color: var(--color-accent); width: 18px; height: 18px; }
+.compare-controls > button, .compare-tray__heading button { font-size: 13px; text-decoration: underline; padding: 6px 0; }
+.compare-table-scroll { overflow: auto; max-height: 75vh; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-bg-white); }
+.compare-table { width: 100%; table-layout: fixed; }
+.compare-table th, .compare-table td { min-width: 180px; padding: 16px; border-bottom: 1px solid var(--color-border); border-right: 1px solid var(--color-border); text-align: left; vertical-align: top; font-size: 14px; overflow-wrap: anywhere; }
+.compare-table th:first-child { width: 136px; min-width: 136px; }
+.compare-table thead th { position: sticky; top: 0; z-index: 2; background: white; }
+.compare-table thead th img { width: 120px; height: 120px; object-fit: contain; margin: 0 auto 4px; }
+.compare-table thead th > a { display: block; font-size: 16px; margin: 8px 0; }
+.compare-table thead button { font-size: 12px; text-decoration: underline; padding: 8px 0; }
+.compare-row--different td { background: #f2f7f5; }
+.compare-table td.is-unverified { color: var(--color-text-secondary); }
+.compare-table tfoot a, .compare-table tfoot span { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 400; }
+.compare-tray { position: fixed; bottom: 0; left: 0; right: 0; z-index: 150; padding: 12px 0; background: var(--color-bg-white); border-top: 2px solid var(--color-accent); box-shadow: 0 -4px 20px rgba(0,0,0,.08); }
+.compare-tray__heading { display: flex; align-items: center; gap: 20px; font-size: 14px; margin-bottom: 8px; }
+.compare-tray__content { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.compare-tray ul { display: flex; flex-wrap: wrap; gap: 8px; }
+.compare-tray li { display: flex; align-items: center; gap: 8px; border: 1px solid var(--color-border); border-radius: 4px; padding: 4px 8px; font-size: 13px; }
+.compare-tray li button { width: 28px; height: 28px; font-size: 20px; }
+.compare-feedback { margin-top: 8px; font-size: 13px; color: var(--color-text-secondary); }
+.main--compare { padding-bottom: 180px; }
+@media (max-width: 767px) {
+  .budget-filter input { flex: 1; min-width: 120px; }
+  .budget-presets { width: 100%; }
+  .budget-presets button { flex: 1; white-space: nowrap; padding: 8px 6px; }
+  .compare-page { padding-top: 24px; }
+  .compare-heading h1 { font-size: 26px; }
+  .compare-hint--scroll { display: block; }
+  .compare-table { width: max-content; min-width: 100%; }
+  .compare-table th:not(:first-child), .compare-table td { width: 180px; min-width: 180px; padding: 12px; }
+  .compare-table th:first-child { position: sticky; left: 0; z-index: 1; width: 100px; min-width: 100px; padding: 12px; background: white; }
+  .compare-table thead th:first-child { z-index: 3; }
+  .compare-table thead th img { width: 80px; height: 80px; }
+  .compare-controls { font-size: 14px; }
+  .compare-tray__content { flex-wrap: wrap; gap: 8px; }
+  .compare-tray__content > .btn { width: 100%; padding: 10px 16px; }
+  .compare-tray ul { gap: 4px; }
+  .compare-tray li { padding: 2px 6px; font-size: 11px; }
+  .main--compare { padding-bottom: 220px; }
+}
+
+.spec-source-link { display: inline-block; margin-left: 12px; font-size: 12px; color: var(--color-accent-dark); text-decoration: underline; }
+@media (min-width: 768px) and (max-width: 1023px) { .header__nav { gap: 14px; } .header__nav-link { font-size: 14px; } }

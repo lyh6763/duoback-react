@@ -1,7 +1,7 @@
 import HeroSection from '../components/home/HeroSection'
 import BestProducts from '../components/home/BestProducts'
 import BrandStory from '../components/home/BrandStory'
-import TrustAwards from '../components/home/TrustAwards'
+import PurchaseChecklist from '../components/home/PurchaseChecklist'
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
       <HeroSection />
       <BestProducts />
       <BrandStory />
-      <TrustAwards />
+      <PurchaseChecklist />
     </>
   )
 }
