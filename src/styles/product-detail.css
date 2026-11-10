@@ -18,6 +18,11 @@
   align-items: flex-start;
 }
 
+/* 썸네일의 합산 너비가 그리드 열의 최소 너비를 늘리지 않게 한다. */
+.product-info__container > * {
+  min-inline-size: 0;
+}
+
 
 /* ----------------------------------------
    Product Gallery
