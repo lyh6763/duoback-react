@@ -1,9 +1,15 @@
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 import CompareTray from './CompareTray'
 import { useCompare } from '../context/compare-context'
+
+function focusMainContent() {
+  const target = document.getElementById('main-content')
+  target?.focus({ preventScroll: true })
+  target?.scrollIntoView({ block: 'start', behavior: 'instant' })
+}
 
 function ScrollToHash() {
   const { hash, pathname } = useLocation()
@@ -27,7 +33,12 @@ function ScrollToHash() {
     }
 
     const timeoutId = window.setTimeout(() => {
-      document.getElementById(targetId)?.scrollIntoView({ block: 'start', behavior: 'instant' })
+      if (targetId === 'main-content') {
+        focusMainContent()
+        return
+      }
+      const target = document.getElementById(targetId)
+      target?.scrollIntoView({ block: 'start', behavior: 'instant' })
     }, 0)
 
     return () => window.clearTimeout(timeoutId)
@@ -38,10 +49,10 @@ function ScrollToHash() {
 
 export default function Layout({ children }) {
   const { ids } = useCompare()
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
   return (
     <>
-      <a href="#main-content" className="skip-link">본문 바로가기</a>
+      <Link to={{ pathname, search, hash: '#main-content' }} className="skip-link" onClick={focusMainContent}>본문 바로가기</Link>
       <ScrollToHash />
       <Header />
       <main id="main-content" tabIndex={-1} className={'main' + (ids.length && pathname !== '/compare' ? ' main--compare' : '')}>
