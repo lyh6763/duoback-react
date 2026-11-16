@@ -7,8 +7,12 @@ export default function BrandStory() {
       <div className="container">
         <div className="brand-story__content">
           <div className="brand-story__image">
-            <img src={assetPath('images/products/D2500G-DASW(1).jpg')}
-              alt="D2500G-DASW 의자가 놓인 공간" width="1200" height="800" loading="lazy" />
+            <img
+              src={assetPath('images/home-workspace.webp')}
+              srcSet={`${assetPath('images/home-workspace-720.webp')} 720w, ${assetPath('images/home-workspace.webp')} 1200w`}
+              sizes="(min-width: 1400px) calc(700px - 3.5rem), (min-width: 1024px) calc(50vw - 3.5rem), calc(100vw - 3rem)"
+              alt="밝은 나무 책상 옆에 놓인 회색 메시 의자" width="1200" height="800" loading="lazy" decoding="async"
+            />
           </div>
           <div className="brand-story__text">
             <h2 className="brand-story__title">사진으로 살펴보고,<br />사양으로 좁혀보세요</h2>

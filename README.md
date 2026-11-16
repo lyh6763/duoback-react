@@ -94,5 +94,6 @@ npm test
 - `docs/hero-section-revision-plan.md`는 히어로 섹션 개선 방향을 정리한 작업 메모입니다. (해당 개선안은 현재 구현 완료)
 - `docs/ai-impression-audit.md`는 2026-10-14 수정 전 기준 점검, `docs/improvement-phase-one.md`는 그 뒤 1차 개선 기록입니다. `docs/product-verification.sources.json`은 공식몰 가격 스냅숏으로, `npm test`가 상품 가격을 이 파일과 대조합니다.
 - `public/images/products`의 스튜디오 사진을 참고 이미지로 사용합니다. 공식 판매 색상·형태는 상세 페이지의 원문 링크에서 확인합니다.
+- 홈 ‘사진으로 살펴보고, 사양으로 좁혀보세요’ 영역의 `public/images/home-workspace*.webp`는 OpenAI ImageGen으로 만든 공간 연출 이미지입니다. 720w와 1200w로 제공합니다.
 - 정적 배포와 GitHub Pages 경로 대응을 위해 Vite `base`와 라우터 설정을 배포 친화적으로 조정했습니다.
 - `npm run build`는 `scripts/build.mjs`를 거칩니다. 프로젝트 경로에 비ASCII 문자(예: `포트폴리오`)가 포함된 Windows 환경에서 Vite/Rollup이 실패하는 문제를 피하려고, 빌드 시 ASCII 임시 폴더로 소스를 복사한 뒤 `dist`만 회수합니다. 경로가 ASCII인 환경(CI 포함)에서는 우회 없이 `vite build`를 그대로 실행하며, `npm run build:direct`로 우회 로직 없이 빌드할 수도 있습니다.
