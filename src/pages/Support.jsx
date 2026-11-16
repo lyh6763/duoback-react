@@ -40,7 +40,7 @@ export default function Support() {
       <section className="support-hero">
         <div className="container">
           <h1 className="support-hero__title">구매 전 확인</h1>
-          <p className="support-hero__subtitle">배송·반품·A/S를 판매처에 확인할 항목과 매장 방문 체크리스트를 모았습니다.</p>
+          <p className="support-hero__subtitle">판매처에 확인할 배송·반품·A/S 항목과 매장 방문 체크리스트를 모았습니다.</p>
         </div>
       </section>
       <section className="quick-links">
@@ -131,11 +131,11 @@ export default function Support() {
           <div id="project">
             <h2 className="section-title">프로젝트와 데이터 안내</h2>
             <p>듀오백을 소재로 제작한 독립 포트폴리오입니다. 공식 판매 사이트나 고객센터가 아닙니다.</p>
-            <p>제품 사진 탐색, 카테고리·예산 필터, 모델 비교, 참고 이미지 색상 선택, 장바구니와 주문 내용 확인을 체험할 수 있습니다. 실제 결제, 주문 전송, A/S 접수는 진행되지 않습니다.</p>
+            <p>제품 사진을 보고 카테고리와 예산으로 목록을 좁혀 모델을 비교할 수 있습니다. 참고 이미지의 색상을 고르고 장바구니와 주문 내용도 확인할 수 있습니다. 실제 결제, 주문 전송, A/S 접수는 진행되지 않습니다.</p>
           </div>
           <div id="storage">
             <h3>입력·저장 정보</h3>
-            <p>장바구니의 상품, 참고 이미지 색상, 수량은 현재 브라우저에 저장됩니다. 비교 목록은 현재 탭의 세션에 저장됩니다. A/S 입력 체험의 내용은 서버로 전송하거나 브라우저 저장소에 보관하지 않으며, 이 화면을 떠나면 사라집니다.</p>
+            <p>장바구니에 담은 상품과 참고 이미지의 색상, 수량은 현재 브라우저에 저장됩니다. 비교 목록은 현재 탭의 세션에 저장됩니다. A/S 체험 화면에 입력한 내용은 서버로 전송하거나 브라우저 저장소에 보관하지 않습니다. 이 화면을 떠나면 사라집니다.</p>
             <p>장바구니의 삭제 버튼이나 브라우저의 사이트 데이터 삭제 기능으로 저장된 장바구니를 지울 수 있습니다.</p>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { assetPath } from '../utils/assetPath'
 
 const CHECKS = [
-  { number: '01', title: '좌판 높이', description: '모델별 조절 범위를 살펴보고, 앉았을 때 발이 바닥에 닿는지 체험해보세요.' },
+  { number: '01', title: '좌판 높이', description: '모델별 조절 범위를 살펴보고 앉았을 때 발이 바닥에 닿는지 확인해 보세요.' },
   { number: '02', title: '팔걸이 방식', description: '고정형과 조절형의 차이를 확인하고 책상과 함께 사용할 때의 높이를 살펴보세요.' },
   { number: '03', title: '소재와 형태', description: '앞·옆·뒤 사진으로 등받이와 좌판 형태를 확인하고, 실제 착좌감을 함께 살펴보세요.' },
 ]

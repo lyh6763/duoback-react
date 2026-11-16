@@ -51,7 +51,7 @@ export default function Compare() {
         <p className="catalog-note">가격과 사양은 2026-10-14 공식몰 기준입니다({PRICE_NOTICE}). {IMAGE_NOTICE}</p>
         {hasInvalidIds && <p role="status">유효한 모델 중 최대 3개만 표시합니다.</p>}
         {products.length === 0 ? (
-          <div className="products-empty"><h2>비교할 모델을 선택하세요</h2><p>제품 목록에서 비교에 담기를 눌러 최대 3개까지 선택할 수 있습니다.</p><Link to="/products" className="btn btn--primary">모델 고르기</Link></div>
+          <div className="products-empty"><h2>비교할 모델을 선택하세요</h2><p>제품 목록에서 ‘비교에 담기’를 눌러 최대 3개까지 선택할 수 있습니다.</p><Link to="/products" className="btn btn--primary">모델 고르기</Link></div>
         ) : (
           <>
             <div className="compare-controls">
