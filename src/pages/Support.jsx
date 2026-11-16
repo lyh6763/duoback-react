@@ -121,7 +121,6 @@ export default function Support() {
       <section className="stores-section" id="stores">
         <div className="container">
           <h2 className="section-title">매장 방문 전 확인</h2>
-          <p className="section-subtitle">매장에 가기 전에 확인할 내용입니다.</p>
           <div className="stores-grid">{VISIT_CHECKS.map(item => (
             <div key={item.title} className="store-card"><h3 className="store-card__name">{item.title}</h3><p>{item.description}</p></div>
           ))}</div>

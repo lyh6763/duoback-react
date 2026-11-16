@@ -44,7 +44,9 @@ export default function Compare() {
       <div className="container">
         <div className="compare-heading">
           <div><h1>모델 비교</h1><p>차이와 확인된 사양을 한 화면에서 살펴보세요.</p></div>
-          <Link to="/products" className="btn btn--secondary" onClick={() => selectIds(modelIds)}>목록에서 모델 추가</Link>
+          {products.length > 0 && (
+            <Link to="/products" className="btn btn--secondary" onClick={() => selectIds(modelIds)}>목록에서 모델 추가</Link>
+          )}
         </div>
         <p className="catalog-note">가격과 사양은 2026-10-14 공식몰 기준입니다({PRICE_NOTICE}). {IMAGE_NOTICE}</p>
         {hasInvalidIds && <p role="status">유효한 모델 중 최대 3개만 표시합니다.</p>}
